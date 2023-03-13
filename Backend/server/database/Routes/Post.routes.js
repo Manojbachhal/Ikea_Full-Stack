@@ -20,7 +20,7 @@ router.get("/bedding", async (req, res) => {
     sort = "";
   }
   let data = await getDataBedding(page, sort);
-  console.log(data.length);
+  // console.log(data.length);
   res.send({
     data,
   });
