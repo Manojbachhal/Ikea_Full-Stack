@@ -10,17 +10,18 @@ const Tables = require("../../Models/ProductModel/Tables");
 const UnderBedStorage = require("../../Models/ProductModel/UnderBedStorage");
 
 const getDataBedding = async (page, sort) => {
-  let sortOrder = 0;
+  let sortOrder;
   if (sort == "asc") {
     sortOrder = 1;
   }
   if (sort == "dsc") {
     sortOrder = -1;
   }
-  let data = await Bedding.find()
-    .sort({ salesPrice_numeral: sortOrder })
-    .skip(page - 1)
-    .limit(10);
+  let skipPage = (page - 1) * 10;
+  let data = await Bedding.find({})
+    .skip(skipPage)
+    .limit(10)
+    .sort({ salesPrice_numeral: sortOrder });
   return data;
 };
 
@@ -123,7 +124,7 @@ const getDataTables = async (page, sort) => {
 };
 
 const getDataUnderBedStorage = async (page, sort) => {
-  let sortOrder = 0;
+  let sortOrder;
   if (sort == "asc") {
     sortOrder = 1;
   }
@@ -131,9 +132,9 @@ const getDataUnderBedStorage = async (page, sort) => {
     sortOrder = -1;
   }
   let data = await UnderBedStorage.find()
-    .sort({ salesPrice_numeral: sortOrder })
     .skip(page - 1)
-    .limit(10);
+    .limit(10)
+    .sort({ salesPrice_numeral: sortOrder });
   return data;
 };
 
