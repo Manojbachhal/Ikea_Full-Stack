@@ -84,3 +84,8 @@ router.get("/underbed-storage", async (req, res) => {
     data,
   });
 });
+
+router.post("/cart", async (req, res) => {
+  let data = req.body;
+  // let res=
+});
