@@ -9,6 +9,7 @@ const CartSchema = moongoose.Schema({
   salesPrice_numeral: { type: Number, required: true },
   salesPrice_prefix: { type: String, required: true },
   salesPrice_wholeNumber: { type: String, required: true },
+  quantity: { type: Number, require: true },
 });
 const Cart = moongoose.model("Cart", CartSchema);
 module.exports = Cart;

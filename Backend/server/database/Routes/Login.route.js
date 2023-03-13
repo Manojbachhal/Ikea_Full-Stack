@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../Models/UserModel/User");
 const {
   register,
   login,
@@ -10,14 +9,15 @@ const {
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, lastname, email, image, password } = req.body;
-    const user = await register({ name, lastname, email, image, password });
-    if (user) {
-      res.send = {
-        massage: "Registration sucessfull",
-        data: user,
-      };
-    }
+    const { name, lastname, email, password, gender } = req.body;
+    let user = await register({ name, lastname, email, password, gender });
+    // console.log("first", user);
+
+    res.send({
+      massage: "Registration sucessfull",
+      data: user,
+    });
+    res.send("hello");
   } catch (error) {
     res.status(500).send(new Error("Already Registered"));
   }
@@ -25,8 +25,9 @@ router.post("/register", async (req, res) => {
 
 router.get("/loggedin", async (req, res) => {
   let header = req.header;
-  if (header) {
-    const token = header.split(" ").pop();
+  const authheader = header["authorization"];
+  if (authheader) {
+    const token = authheader.split(" ").pop();
 
     try {
       const payload = VarifyToken(token);
@@ -55,3 +56,5 @@ router.post("/login", async (req, res) => {
     res.status(400).send("User Not Found");
   }
 });
+
+module.exports = router;

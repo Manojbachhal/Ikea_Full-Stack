@@ -1,19 +1,25 @@
 const User = require("../../Models/UserModel/User");
 const bycrpt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+// const moongose = require("mongoose");
+const register = async ({ name, lastname, email, password, gender }) => {
+  // console.log({ name, lastname, email, password, gender });
+  let alreadyExist = await User.findOne({ email });
 
-const register = async ({ name, lastname, email, image, password }) => {
-  let user = await User.find({ email });
-  if (user) {
-    return new Error("Already Registered");
+  if (alreadyExist) {
+    throw new Error("Already Registered");
   }
-  user = {
+  let user = await User.create({
     name,
     lastname,
     email,
-    image,
     password: bycrpt.hashSync(password),
-  };
+    gender,
+  });
+  user.toJSON();
+  // console.log(delete user.password);
+  delete user.password;
+  return user;
 };
 
 const GenerateToken = (user) => {
@@ -27,7 +33,7 @@ const GenerateToken = (user) => {
 };
 
 const login = async ({ email, password }) => {
-  let user = await User.find({ email });
+  let user = await User.findOne({ email });
   if (user) {
     user = user.toJSON();
     if (bycrpt.compareSync(password, user.password)) {
