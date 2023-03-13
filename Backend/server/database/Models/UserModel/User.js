@@ -9,6 +9,7 @@ const UserSchema = () => {
     gender: { type: String, require: true },
     image: { type: String },
     password: { type: String, require: true },
+    // ..
   });
 };
 const User = mongoose.model("user", UserSchema);
