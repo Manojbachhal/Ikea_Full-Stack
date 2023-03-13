@@ -154,15 +154,18 @@ const getDataUnderBedStorage = async (page, sort) => {
   return data;
 };
 
-// const createCartData = async (Data) => {
-//   let id = Data.ProductId;
-//   let email=Data.email;
-//   let data = await Cart.find({email,id});
-//   if(data){
-//     data.quantity+=1;
-//   }
-//   return data;
-// };
+const createCartData = async (Data) => {
+  let id = Data.ProductId;
+  let email = Data.email;
+  let data = await Cart.find({ email, id });
+  if (data) {
+    data.quantity += 1;
+    return data;
+  } else {
+    let res = Cart.create(Data);
+    return res;
+  }
+};
 
 module.exports = {
   getDataBedSideTable,

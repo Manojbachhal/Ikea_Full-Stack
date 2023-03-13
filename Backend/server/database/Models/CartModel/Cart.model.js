@@ -1,7 +1,6 @@
 const moongoose = require("mongoose");
 const CartSchema = moongoose.Schema({
   email: { type: String, required: true },
-  name: { type: String, required: true },
   typeName: { type: String, required: true },
   ProductId: { type: Number, required: true },
   itemNoGlobal: { type: Number, required: true },
