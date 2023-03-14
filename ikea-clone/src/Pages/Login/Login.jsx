@@ -12,19 +12,18 @@ import 'react-toastify/dist/ReactToastify.css';
 function Login() {
     const AlreadyLogin = async () => {
         try {
+            let Token = JSON.parse(localStorage.getItem("Token"));
 
-            let Logindata = await axios.post('http://localhost:4000/user/login',
-
-                {
-                    "email": inputData.email,
-                    "password": inputData.password
-                }
+            let Logindata = await axios.get('http://localhost:4000/user/loggedin', Headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Token}`,
+            }
             )
-            localStorage.setItem("userName", JSON.stringify(Logindata.data.user.data.name))
-            localStorage.setItem("Token", JSON.stringify(Logindata.data.user.token))
+            localStorage.setItem("userName", JSON.stringify(Logindata.data.name))
+            // localStorage.setItem("Token", JSON.stringify(Logindata.data.user.token))
             signinAction(true);
 
-            // console.log(Logindata.data.user.token)
+            // console.log(Logindata)
 
             navigate('/')
         } catch (error) {
@@ -33,7 +32,7 @@ function Login() {
     }
     useEffect(() => {
         AlreadyLogin();
-    })
+    }, [])
     const data = useSelector((storedData) => {
         return storedData.signupReducer.signupUsers;
     })
@@ -63,11 +62,11 @@ function Login() {
                     "password": inputData.password
                 }
             )
-            localStorage.setItem("userName", JSON.stringify(Logindata.data.user.data.name))
+            localStorage.setItem("userName", JSON.stringify(Logindata.data.user.data.name + " " + Logindata.data.user.data.lastname))
             localStorage.setItem("Token", JSON.stringify(Logindata.data.user.token))
             signinAction(true);
 
-            console.log(Logindata.data.user.token)
+            // console.log(Logindata.data.user.token)
             toast.success('Login Sucessful!', {
                 position: "top-center",
                 autoClose: 2000,
@@ -80,7 +79,7 @@ function Login() {
             });
             navigate('/')
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error('Login failed !', {
                 position: "top-center",
                 autoClose: 5000,
