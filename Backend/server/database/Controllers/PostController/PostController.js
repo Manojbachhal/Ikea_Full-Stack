@@ -19,10 +19,8 @@ const getDataBedding = async (page, sort) => {
   }
   let skipPage = (page - 1) * 10;
   console.log("page" + " " + page);
-  let data = await Bedding.find()
-    .skip(skipPage)
-    .limit(10)
-    .sort({ salesPrice_numeral: sortOrder });
+  let data = await Bedding.find().skip(skipPage).limit(12);
+  // .sort({ salesPrice_numeral: sortOrder });
   return data;
 };
 
