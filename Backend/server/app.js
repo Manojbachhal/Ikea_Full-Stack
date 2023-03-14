@@ -3,7 +3,13 @@ const Connection = require("./database/Connection");
 const app = express();
 const loginroutes = require("./database/Routes/Login.route");
 const productroutes = require("./database/Routes/Post.routes");
+const cors = require("cors");
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use("/user", loginroutes);
 app.use("/products", productroutes);

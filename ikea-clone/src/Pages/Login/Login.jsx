@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "@react-icons/all-files/ai/AiOutlineArrowLeft";
 import "./Login.css"
 import { useSelector } from 'react-redux'
@@ -6,9 +6,34 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { signinAction } from "../../Redux/Action/signupAction";
 import { ToastContainer, toast } from 'react-toastify'
+import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+    const AlreadyLogin = async () => {
+        try {
+
+            let Logindata = await axios.post('http://localhost:4000/user/login',
+
+                {
+                    "email": inputData.email,
+                    "password": inputData.password
+                }
+            )
+            localStorage.setItem("userName", JSON.stringify(Logindata.data.user.data.name))
+            localStorage.setItem("Token", JSON.stringify(Logindata.data.user.token))
+            signinAction(true);
+
+            // console.log(Logindata.data.user.token)
+
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        AlreadyLogin();
+    })
     const data = useSelector((storedData) => {
         return storedData.signupReducer.signupUsers;
     })
@@ -27,30 +52,35 @@ function Login() {
     }
 
 
-    const handleSignin = () => {
-        let login = false 
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].email == inputData.email && data[i].password == inputData.password) {
-                localStorage.setItem("userName", JSON.stringify((data[i].firstname + " " + " " + data[i].surname)));
-                // console.log(data[i].firstname)
-                signinAction(true);
-                login = true;
+    const handleSignin = async (e) => {
+        e.preventDefault();
+        try {
 
-                toast.success('Login Sucessful!', {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });   
+            let Logindata = await axios.post('http://localhost:4000/user/login',
 
-                navigate('/')
-            }
-        }
-        if(!login) {
+                {
+                    "email": inputData.email,
+                    "password": inputData.password
+                }
+            )
+            localStorage.setItem("userName", JSON.stringify(Logindata.data.user.data.name))
+            localStorage.setItem("Token", JSON.stringify(Logindata.data.user.token))
+            signinAction(true);
+
+            console.log(Logindata.data.user.token)
+            toast.success('Login Sucessful!', {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            navigate('/')
+        } catch (error) {
+            console.log(error)
             toast.error('Login failed !', {
                 position: "top-center",
                 autoClose: 5000,
@@ -61,9 +91,10 @@ function Login() {
                 progress: undefined,
                 theme: "colored",
             });
-            navigate('/sign-in')
+
+
         }
-        
+
 
     }
     // console.log(inputData)
@@ -115,7 +146,7 @@ function Login() {
         <div id='login_secoundchildiv'>
 
 
-            <form action="" className="mt-5" style={{ paddingLeft: '80px' }}>
+            <form action="" onSubmit={handleSignin} className="mt-5" style={{ paddingLeft: '80px' }}>
 
                 <div className="form-floating mb-3 col-9" >
                     <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" name="email" onChange={handle} />
@@ -151,3 +182,4 @@ function Login() {
     </div >);
 }
 export default Login;
+

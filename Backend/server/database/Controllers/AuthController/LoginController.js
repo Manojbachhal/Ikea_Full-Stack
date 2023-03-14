@@ -38,6 +38,7 @@ const login = async ({ email, password }) => {
     user = user.toJSON();
     if (bycrpt.compareSync(password, user.password)) {
       delete user.password;
+      console.log(user);
       return {
         token: GenerateToken(user),
         data: user,

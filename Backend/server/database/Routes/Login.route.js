@@ -26,6 +26,7 @@ router.post("/register", async (req, res) => {
 router.get("/loggedin", async (req, res) => {
   let header = req.header;
   const authheader = header["authorization"];
+  console.log(authheader);
   if (authheader) {
     const token = authheader.split(" ").pop();
 
@@ -48,6 +49,7 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await login({ email, password });
+    console.log(user);
     res.send({
       message: "Login successful",
       user,
