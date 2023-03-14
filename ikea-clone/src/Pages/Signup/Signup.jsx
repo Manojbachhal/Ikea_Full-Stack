@@ -3,6 +3,9 @@ import Card from './Card';
 import "./Signup.css"
 import signupAction from '../../Redux/Action/signupAction';
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+
+import axios from 'axios'
 function Signup() {
     const [inputData, setInputData] = useState({
         firstname: '',
@@ -22,9 +25,37 @@ function Signup() {
         let value = e.target.value;
         setInputData({ ...inputData, [name]: value })
     }
-    const handleSubmit = () => {
-        signupAction(inputData)
-        navigate('/sign-in')
+    const handleSubmit = async () => {
+        try {
+            let data = await axios.post('http://localhost:4000/user/register', {
+                name: inputData.firstname,
+                lastname: inputData.surname,
+                email: inputData.email,
+                gender: inputData.gender,
+                password: inputData.password,
+            })
+            if (data) {
+                toast.success('Registration Sucessful Redirecting to Login page', {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
+                setTimeout(() => {
+
+                    navigate('/sign-in')
+                }, 2000)
+
+                console.log(data)
+
+            }
+        } catch (error) {
+            console.log("error")
+        }
     }
 
     // console.log(inputData)
@@ -55,13 +86,13 @@ function Signup() {
         </div>
         <div id='singup_form' style={{ paddingLeft: '80px' }}>
 
-            <form action="" className="mt-5" >
+            <form action="" className="mt-5" onSubmit={handleSubmit}>
 
 
                 <div className="form-floating mb-3" style={{ width: '450px' }} id='signup_input'>
                     <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" style={{ border: "none", borderBottom: '1px  solid', borderRadius: '0px', marginBottom: '30px' }} onClick={() => {
                         document.getElementById("floatingInput").preventFocus = true;
-                    }} name='firstname' onChange={handle} />
+                    }} name='firstname' onChange={handle} required />
                     <label for="floatingInput" >First Name</label>
                 </div>
 
@@ -69,7 +100,7 @@ function Signup() {
                 <div className="form-floating mb-3" style={{ width: '450px' }} id='signup_input'>
                     <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com" style={{ border: "none", borderBottom: '1px  solid', borderRadius: '0px', marginBottom: '30px' }} onClick={() => {
                         document.getElementById("floatingInput").preventFocus = true;
-                    }} name='surname' onChange={handle} />
+                    }} name='surname' onChange={handle} required />
                     <label for="floatingInput" >Surname</label>
                 </div>
 
@@ -111,7 +142,7 @@ function Signup() {
 
                 <div className="form-floating mb-3" style={{ width: '450px' }} id='signup_input'>
                     <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" style={{ border: "none", borderBottom: '1px  solid', borderRadius: '0px', marginBottom: '30px' }}
-                        name='email' onChange={handle} />
+                        name='email' onChange={handle} required />
                     <label for="floatingInput" >Email</label>
                 </div>
 

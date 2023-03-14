@@ -4,35 +4,35 @@ const {
   register,
   login,
   loggedin,
-  VarifyToken,
+  verifyTOken,
 } = require("../Controllers/AuthController/LoginController");
 
 router.post("/register", async (req, res) => {
   try {
     const { name, lastname, email, password, gender } = req.body;
     let user = await register({ name, lastname, email, password, gender });
-    // console.log("first", user);
+    console.log("first", user);
 
     res.send({
       massage: "Registration sucessfull",
       data: user,
     });
-    res.send("hello");
+    // res.send("hello");
   } catch (error) {
     res.status(500).send(new Error("Already Registered"));
   }
 });
 
 router.get("/loggedin", async (req, res) => {
-  let header = req.header;
+  let header = req.headers;
   const authheader = header["authorization"];
-  console.log(authheader);
+  // console.log(authheader);
   if (authheader) {
     const token = authheader.split(" ").pop();
-
     try {
-      const payload = VarifyToken(token);
+      const payload = verifyTOken(token);
       let user = await loggedin(payload.email);
+      console.log(user);
 
       res.send({
         data: user,

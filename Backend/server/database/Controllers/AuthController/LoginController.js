@@ -27,6 +27,7 @@ const GenerateToken = (user) => {
     _id: user.id,
     email: user.email,
     name: user.name,
+    lastname: user.lastname,
   };
 
   return jwt.sign(payload, "kasndfksdn@-dsn");
@@ -47,21 +48,22 @@ const login = async ({ email, password }) => {
   }
 };
 
-const loggedin = () => {
-  let user = User.findOne({ email });
+const loggedin = async (email) => {
+  let user = await User.findOne({ email });
+  // console.log(user);
   user = user.toJSON();
   delete user.password;
   return user;
 };
 
-const VarifyToken = (token) => {
-  const payload = jwt.VarifyToken(token, "kasndfksdn@-dsn");
+function verifyTOken(token) {
+  const payload = jwt.verify(token, "kasndfksdn@-dsn");
   return payload;
-};
+}
 
 module.exports = {
   register,
   login,
   loggedin,
-  VarifyToken,
+  verifyTOken,
 };
