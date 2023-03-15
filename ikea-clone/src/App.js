@@ -11,20 +11,13 @@ import { json } from "react-router-dom";
 import Payment from "./Pages/Payment/Payment";
 
 function App() {
-
- const storeData =  useSelector((dta)=> {
-        return dta;
-  })
-
-  
   return (
     <div className="App">
       <Navbar />
       <Allroutes />
-      <MainFooter/>
+      <MainFooter />
+
       {/* <Wishlist/> */}
-     
-      
     </div>
   );
 }

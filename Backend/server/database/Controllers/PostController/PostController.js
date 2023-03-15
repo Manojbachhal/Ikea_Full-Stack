@@ -109,13 +109,31 @@ const getDataMattress = async (page, sort) => {
 
 const getDataSofa = async (page, sort) => {
   let skipPage = (page - 1) * 10;
-  let total = await Sofa.find();
-  let data = await Sofa.find().skip(skipPage).limit(12);
+  let totalPage = await Sofa.countDocuments();
+  let SOfaData = Sofa.find().skip(skipPage).limit(12);
 
-  // .sort({ salesPrice_numeral: sortOrder });
+  // .sort({ salesPrice_numeral: -1 });
+  if (sort == "asc") {
+    // SOfaData = await Sofa.find()
+    //   .skip(skipPage)
+    //   .limit(12)
+    //   .sort({ salesPrice_numeral: 1 });
+    SOfaData = SOfaData.sort({ salesPrice_numeral: 1 });
+    // console.log(SOfaData);
+  } else if (sort == "dsc") {
+    // SOfaData = await Sofa.find()
+    //   .skip(skipPage)
+    //   .limit(12)
+    //   .sort({ salesPrice_numeral: -1 });
+    SOfaData = SOfaData.sort({ salesPrice_numeral: -1 });
+  }
+  // ;
+  // console.log(data);
+  let data = await SOfaData;
+
   return {
     data,
-    totalPage: total.length,
+    totalPage,
   };
 };
 
@@ -151,6 +169,12 @@ const getDataUnderBedStorage = async (page, sort) => {
   return data;
 };
 
+const showCartData = async () => {
+  let res = await Cart.find();
+  // console.log(res);
+  return res;
+};
+
 const createCartData = async (Data) => {
   let user = verifyTOken(Data.token);
   let email = user.email;
@@ -159,12 +183,13 @@ const createCartData = async (Data) => {
   let itemNoGlobal = Data.cartItem.itemNoGlobal;
 
   let data = await Cart.findOne({ email, itemNoGlobal });
-  console.log(data, "cart");
+  // console.log(data, "cart");
   if (data) {
     let res = await Cart.findOneAndUpdate(
       { email, itemNoGlobal },
       { quantity: data.quantity + 1 }
     );
+    res = await Cart.find();
     // data.quantity += 1;
     return res;
   } else {
@@ -172,12 +197,46 @@ const createCartData = async (Data) => {
     delete Data.cartItem._id;
     delete Data.cartItem.id;
     // console.log(Data.cartItem);
-    let res = await Cart.create(Data.cartItem);
-    // console.log(res);
+    await Cart.create(Data.cartItem);
+    let res = await showCartData();
     return res;
   }
 };
 
+const updateCartData = async (Data) => {
+  let user = verifyTOken(Data.token);
+  let email = user.email;
+  Data.cartItem.email = email;
+  // console.log(Data.cartItem);
+  let itemNoGlobal = Data.cartItem.itemNoGlobal;
+
+  let data = await Cart.findOne({ email, itemNoGlobal });
+  // console.log(data, "cart");
+  if (data.quantity == 1) {
+    await Cart.findOneAndRemove({ email, itemNoGlobal });
+    let res = await showCartData();
+    return res;
+  } else if (data) {
+    let res = await Cart.findOneAndUpdate(
+      { email, itemNoGlobal },
+      { quantity: data.quantity - 1 }
+    );
+    res = await Cart.find();
+    // data.quantity += 1;
+    return res;
+  }
+};
+
+const removeproduct = async (Data) => {
+  let user = verifyTOken(Data.token);
+  let email = user.email;
+  Data.cartItem.email = email;
+  // console.log(Data.cartItem);
+  let itemNoGlobal = Data.cartItem.itemNoGlobal;
+  await Cart.findOneAndRemove({ email, itemNoGlobal });
+  let res = await showCartData();
+  return res;
+};
 module.exports = {
   getDataBedSideTable,
   getDataBedding,
@@ -189,4 +248,7 @@ module.exports = {
   getDataTables,
   getDataUnderBedStorage,
   createCartData,
+  showCartData,
+  updateCartData,
+  removeproduct,
 };

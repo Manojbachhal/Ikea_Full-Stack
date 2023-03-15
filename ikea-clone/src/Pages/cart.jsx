@@ -1,23 +1,77 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from "../Pages/cart.css"
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus"
 import { BiMinus } from "@react-icons/all-files/bi/BiMinus"
-
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { myStore } from '../Redux/Store'
 import { cartAction, cartQtyAction, cartSubAction, cartDeleteAction } from '../Redux/Action/cartAction'
-
 const Cart = () => {
-  const cartdata = useSelector((store) => {
-    return store.cartReducer.cartData
+  const dispatch = useDispatch();
+  const [cartdata, setCartdata] = useState([]);
+  // let cartdata = [];
+  const getData = (async () => {
+    let data = await axios.get(`http://localhost:4000/products/cart/view`)
+    if (data.data.length > 0) {
+      console.log(data.data)
+      // let res = data.data;
+      cartAction(data.data, dispatch);
+      setCartdata(data.data)
+      // cartdata = data.data
+
+    }
+
+    console.log(data.data)
+
   })
-  console.log(cartdata)
+
+  const updateData = async (cartItem) => {
+    delete cartItem.email;
+    let token = JSON.parse(localStorage.getItem('Token'))
+    let res = await axios.post(`http://localhost:4000/products/cart/add`, {
+      cartItem,
+      token
+    })
+    setCartdata(res.data)
+
+    console.log(res)
+
+  }
+  const updateDeleteData = async (cartItem) => {
+    delete cartItem.email;
+    let token = JSON.parse(localStorage.getItem('Token'))
+    let res = await axios.post(`http://localhost:4000/products/cart/remove`, {
+      cartItem,
+      token
+    })
+    setCartdata(res.data)
+
+    console.log(res)
+
+  }
+  const cartDelete = async (cartItem) => {
+    delete cartItem.email;
+    let token = JSON.parse(localStorage.getItem('Token'))
+    let res = await axios.post(`http://localhost:4000/products/cart/remove-product`, {
+      cartItem,
+      token
+    })
+    setCartdata(res.data)
+
+  }
+  useEffect(() => {
+    // (async function () {
+    getData();
+    // })();
+  }, [])
+
   var Totalprice = 0
   cartdata.map((ele, index) => {
-    Totalprice += ele.Qty * ele.salesPrice.numeral
+    Totalprice += ele.quantity * ele.salesPrice_numeral
   })
+  console.log(Totalprice)
   return (
     <div>
       <div className="cart-container">
@@ -41,29 +95,21 @@ const Cart = () => {
                       <div className='cartdetailsinner'>
                         <h4>{ele.name}</h4>
                         <p>{ele.typeName}</p>
-                        <div>
-                          {ele.colors.length > 0 &&
-                            ele.colors.map((c) => {
-                              return (
-                                c.name
-                              )
-                            })
-                          }
-                        </div>
+
                       </div>
-                      <h5>{ele.salesPrice.current.prefix} {ele.salesPrice.numeral}</h5>
+                      <h5>{ele.salesPrice_prefix} {ele.salesPrice_numeral}</h5>
                       <div className='cartproduct'>
                         <div className='cartproductbutton'>
-                        <button onClick={() => (cartQtyAction(ele))}><AiOutlinePlus /></button>
-                        <button>{ele.Qty}</button>
-                        <button disabled={ele.Qty == 1} onClick={() => cartSubAction(ele)}><BiMinus style={{color:"#000", fontSize:"22px"}}/></button>
+                          <button onClick={() => updateData(ele)}><AiOutlinePlus /></button>
+                          <button>{ele.quantity}</button>
+                          <button disabled={ele.Qty == 1} onClick={() => updateDeleteData(ele)}><BiMinus style={{ color: "#000", fontSize: "22px" }} /></button>
                         </div>
                         <div className='savebutton'>
-                        <button onClick={() => cartDeleteAction(ele)}>Remove product</button>
-                        <button>Save for later</button>
+                          <button onClick={() => cartDelete(ele)}>Remove product</button>
+                          <button>Save for later</button>
                         </div>
-                    </div>
                       </div>
+                    </div>
                   </div>
                 )
               })
@@ -86,7 +132,7 @@ const Cart = () => {
             Delivery estimates will be available on the next page.
           </div>
           <div className="viewdelivery">
-          <Link to="/delivery"><button> Place your order <span><BsArrowRight /></span></button></Link>
+            <Link to="/delivery"><button> Place your order <span><BsArrowRight /></span></button></Link>
           </div>
           <div className="cartreturnpolicy">
             <span><i className=""></i></span>

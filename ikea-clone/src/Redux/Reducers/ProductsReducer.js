@@ -1,6 +1,7 @@
 const intialData = {
   bedding: [],
   sofa: [],
+  isLoading: false,
 };
 
 export const productReducer = (state = intialData, action) => {
@@ -10,6 +11,10 @@ export const productReducer = (state = intialData, action) => {
       return { ...state, bedding: action.payload };
     case "SOFA":
       return { ...state, sofa: action.payload };
+    case "LoadingON":
+      return { ...state, isLoading: true };
+    case "LoadingOFF":
+      return { ...state, isLoading: false };
     default:
       return state;
   }

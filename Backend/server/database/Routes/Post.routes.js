@@ -11,6 +11,9 @@ const {
   getDataTables,
   getDataUnderBedStorage,
   createCartData,
+  showCartData,
+  updateCartData,
+  removeproduct,
 } = require("../Controllers/PostController/PostController");
 
 const router = express.Router();
@@ -119,6 +122,23 @@ router.post("/cart/add", async (req, res) => {
   let data = req.body;
   // console.log(data);
   let response = await createCartData(data);
+  res.send(response);
+});
+
+router.get("/cart/view", async (req, res) => {
+  // console.log("res");
+  let response = await showCartData();
+  res.send(response);
+});
+
+router.post("/cart/remove", async (req, res) => {
+  let data = req.body;
+  let response = await updateCartData(data);
+  res.send(response);
+});
+router.post("/cart/remove-product", async (req, res) => {
+  let data = req.body;
+  let response = await removeproduct(data);
   res.send(response);
 });
 

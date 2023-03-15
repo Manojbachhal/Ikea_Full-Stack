@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import listAction from "../../../Redux/Action/listAction";
 import listSortAction from "../../../Redux/Action/listFirstAction";
 import thunkActionProductsBedding, {
+  LoadingActionOFF,
+  LoadingActionON,
   thunkActionProductsSofa,
 } from "../../../Redux/Action/productAction";
 import { myStore } from "../../../Redux/Store";
+import axios from "axios";
 
 const FilterStyle = {
   zIndex: "1",
@@ -25,7 +28,7 @@ const buttonStyle = {
   fontSize: "18px",
 };
 
-function Sort() {
+function Sort({ page }) {
   const data = [
     {
       title: "Price : low to high",
@@ -52,26 +55,47 @@ function Sort() {
   });
 
   const { dispatch, getState } = myStore;
-  const handleFilter = (ele) => {
+  const handleFilter = (ele, index) => {
     switch (ele.title) {
       case "Price : low to high":
-        let arr = productData.sort(function (a, b) {
-          // console.log(a.salesPrice_numeral);
-          return a.salesPrice_numeral - b.salesPrice_numeral;
-        });
+        // let data;
 
-        dispatch(thunkActionProductsSofa(dispatch, getState, arr));
+        (async function () {
+          dispatch(LoadingActionON(dispatch));
 
-      // break;
+          let data = await axios.get(
+            `http://localhost:4000/products/sofa?page=${page}&sort=asc`
+          );
+          if (data.data.data.data.length > 0) {
+            dispatch(
+              thunkActionProductsSofa(dispatch, getState, data.data.data.data)
+            );
+          }
+          dispatch(LoadingActionOFF(dispatch));
+          // console.log(data.data.data.data);
+        })();
+
+        break;
       case "Price : high to low":
-        productData.sort(function (a, b) {
-          return b.salesPrice_numeral - a.salesPrice_numeral;
-        });
-        dispatch(thunkActionProductsSofa(dispatch, getState, productData));
+        // dispatch(LoadingActionON(dispatch));
+        (async function () {
+          let data = await axios.get(
+            `http://localhost:4000/products/sofa?page=${page}&sort=dsc`
+          );
 
-      // break;
+          if (data.data.data.data.length > 0) {
+            dispatch(
+              thunkActionProductsSofa(dispatch, getState, data.data.data.data)
+            );
+          }
+          // dispatch(LoadingActionOFF(dispatch));
+
+          // console.log(data.data.data.data);
+        })();
+
+        break;
       case "Name":
-        productData.sort(function (a, b) {
+        let arr = productData.sort(function (a, b) {
           if (a.name > b.name) {
             return 1;
           }
@@ -81,8 +105,9 @@ function Sort() {
             return 0;
           }
         });
-        dispatch(thunkActionProductsSofa(dispatch, getState, productData));
-      // break;
+        // console.log(arr);
+        dispatch(thunkActionProductsSofa(dispatch, getState, arr));
+        break;
 
       default:
         break;
@@ -96,13 +121,19 @@ function Sort() {
           return (
             <div key={index + 1}>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  // e.target.style.color = "red";
                   handleFilter(ele);
                 }}
                 style={buttonStyle}
               >
                 {" "}
-                <input type="radio" name="aman" width="40px" />{" "}
+                {/* <input
+                  type="radio"
+                  name="aman"
+                  width="40px"
+                  id={index + "s"}
+                />{" "} */}
                 <label>{ele.title}</label>{" "}
               </button>
               <br />

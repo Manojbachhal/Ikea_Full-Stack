@@ -101,6 +101,17 @@ export const thunkActionProductsSofa = (dispatch, getState, payload) => {
     payload,
   });
 };
+
+export const LoadingActionON = (dispatch) => {
+  return (dispatch = {
+    type: "LoadingON",
+  });
+};
+export const LoadingActionOFF = (dispatch) => {
+  return (dispatch = {
+    type: "LoadingOFF",
+  });
+};
 // };
 
 export default thunkActionProductsBedding;

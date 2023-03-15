@@ -1,8 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
+import { cartAction } from '../../../Redux/Action/cartAction';
 function BeddingSingle() {
+    const dispatch = useDispatch();
     const { id } = useParams()
     const dta = useSelector((storedData) => {
         return storedData.productReducer.sofa;
@@ -19,7 +21,8 @@ function BeddingSingle() {
             cartItem,
             token
         })
-        console.log(res)
+        dispatch(cartAction(res.data, dispatch))
+        console.log(res.data)
     }
     return (
         < div style={{ width: '90%' }} className='mx-auto mt-5'  >
