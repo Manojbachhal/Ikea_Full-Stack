@@ -10,6 +10,7 @@ const {
   getDataSofa,
   getDataTables,
   getDataUnderBedStorage,
+  createCartData,
 } = require("../Controllers/PostController/PostController");
 
 const router = express.Router();
@@ -114,9 +115,11 @@ router.get("/underbed-storage", async (req, res) => {
   });
 });
 
-router.post("/cart", async (req, res) => {
+router.post("/cart/add", async (req, res) => {
   let data = req.body;
-  // let res=
+  // console.log(data);
+  let response = await createCartData(data);
+  res.send(response);
 });
 
 module.exports = router;

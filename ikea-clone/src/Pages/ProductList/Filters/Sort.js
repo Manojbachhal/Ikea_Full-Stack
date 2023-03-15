@@ -2,6 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import listAction from "../../../Redux/Action/listAction";
 import listSortAction from "../../../Redux/Action/listFirstAction";
+import thunkActionProductsBedding, {
+  thunkActionProductsSofa,
+} from "../../../Redux/Action/productAction";
+import { myStore } from "../../../Redux/Store";
 
 const FilterStyle = {
   zIndex: "1",
@@ -21,7 +25,7 @@ const buttonStyle = {
   fontSize: "18px",
 };
 
-function Sort({ Name }) {
+function Sort() {
   const data = [
     {
       title: "Price : low to high",
@@ -44,29 +48,28 @@ function Sort({ Name }) {
   ];
 
   const productData = useSelector((productlist) => {
-    return productlist.productReducer.bedding;
+    return productlist.productReducer.sofa;
   });
 
-  const dispatch = useDispatch();
-
+  const { dispatch, getState } = myStore;
   const handleFilter = (ele) => {
     switch (ele.title) {
       case "Price : low to high":
-        productData.sort(function (a, b) {
+        let arr = productData.sort(function (a, b) {
+          // console.log(a.salesPrice_numeral);
           return a.salesPrice_numeral - b.salesPrice_numeral;
         });
 
-        listAction(productData.slice(), dispatch);
+        dispatch(thunkActionProductsSofa(dispatch, getState, arr));
 
-        break;
+      // break;
       case "Price : high to low":
         productData.sort(function (a, b) {
           return b.salesPrice_numeral - a.salesPrice_numeral;
         });
+        dispatch(thunkActionProductsSofa(dispatch, getState, productData));
 
-        listAction(productData.slice(), dispatch);
-
-        break;
+      // break;
       case "Name":
         productData.sort(function (a, b) {
           if (a.name > b.name) {
@@ -78,8 +81,8 @@ function Sort({ Name }) {
             return 0;
           }
         });
-        listAction(productData.slice(), dispatch);
-        break;
+        dispatch(thunkActionProductsSofa(dispatch, getState, productData));
+      // break;
 
       default:
         break;

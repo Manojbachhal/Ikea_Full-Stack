@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import "./Bs.css"
+import axios from 'axios'
 function BeddingSingle() {
     const { id } = useParams()
     const dta = useSelector((storedData) => {
@@ -12,7 +12,15 @@ function BeddingSingle() {
     })
     console.log(data, id)
 
-
+    const cardAdd = async () => {
+        let cartItem = data[0];
+        let token = JSON.parse(localStorage.getItem('Token'))
+        let res = await axios.post(`http://localhost:4000/products/cart/add`, {
+            cartItem,
+            token
+        })
+        console.log(res)
+    }
     return (
         < div style={{ width: '90%' }} className='mx-auto mt-5'  >
             {
@@ -40,7 +48,7 @@ function BeddingSingle() {
                                     }} />
                                 <p>Extra 50% off on each discounted product when you buy 2 discounted products (or in multiples of 2), final discounted price will be displayed in the cart. NO COUPON REQUIRED.</p>
                             </div>
-                            <button className='bg-black fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-warning' style={{ letterSpacing: '1px' }}>Add To Cart</button>
+                            <button className='bg-black fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-warning' style={{ letterSpacing: '1px' }} onClick={cardAdd}>Add To Cart</button>
                         </div>
                     </div>
 

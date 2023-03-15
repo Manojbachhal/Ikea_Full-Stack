@@ -96,10 +96,6 @@ export const thunkActionProductsUBS = (dispatch, getState, payload) => {
 };
 
 export const thunkActionProductsSofa = (dispatch, getState, payload) => {
-  // const data = getState().productReducer.beds;
-  // // console.log(data);
-  // if (data.length == 0) {
-  // console.log(data, "actin");
   return (dispatch = {
     type: "SOFA",
     payload,

@@ -90,7 +90,7 @@ function Filters({ getData, page }) {
       </div>
 
       <div>
-        {filterBox == "SORT" ? <Sort /> : <></>}
+        {filterBox == "SORT" ? <Sort page={page} /> : <></>}
         {filterBox == "NOS" ? <NumOfSeats /> : <></>}
         {filterBox == "CATEGORY" ? <Category /> : <></>}
         {filterBox == "PRICE" ? <Price /> : <></>}
