@@ -19,9 +19,13 @@ const getDataBedding = async (page, sort) => {
   }
   let skipPage = (page - 1) * 10;
   console.log("page" + " " + page);
+  let total = await Bedding.find();
   let data = await Bedding.find().skip(skipPage).limit(12);
   // .sort({ salesPrice_numeral: sortOrder });
-  return data;
+  return {
+    data,
+    totalPage: total.length,
+  };
 };
 
 const getDataBeds = async (page, sort) => {
@@ -113,11 +117,13 @@ const getDataSofa = async (page, sort) => {
     sortOrder = -1;
   }
   let skipPage = (page - 1) * 10;
-  let data = await Sofa.find()
-    .skip(skipPage)
-    .limit(10)
-    .sort({ salesPrice_numeral: sortOrder });
-  return data;
+  let total = await Sofa.find();
+  let data = await Sofa.find().skip(skipPage).limit(12);
+  // .sort({ salesPrice_numeral: sortOrder });
+  return {
+    data,
+    totalPage: total.length,
+  };
 };
 
 const getDataTables = async (page, sort) => {

@@ -1,28 +1,33 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import './Sofa1.css'
-import Sofadata from './../../../JsonFiles/sofa1.json'
+import Sofadata from '../../../JsonFiles/sofa1.json'
 import Filters from "../Filters/Filters";
 import ItemBox from "../ItemBox";
 import { myStore } from "../../../Redux/Store";
 import { useEffect } from "react";
-import thunkActionProducts from "../../../Redux/Action/productAction";
+import thunkActionProductsBedding from "../../../Redux/Action/productAction";
+
 import { useSelector } from "react-redux";
 import Card from "./Card";
 import Pagination from "./Pagination";
 
-function Sofa1() {
+function Bedding() {
     const { dispatch, getState } = myStore;
     const [page, setpage] = useState(1);
-    const getData = (async () => {
+    const [totalpage, settotal] = useState(0);
+    const [Data, setData] = useState([]);
+    const getData = (async (page) => {
         let data = await axios.get(`http://localhost:4000/products/bedding?page=${page}`)
-        // console.log(data.data.data);
-        return data.data.data;
+        console.log(data.data.data);
+        settotal(data.data.data.totalPage)
+        setData(data.data.data.data);
+        return data.data.data.data;
     })
     useEffect(() => {
         (async function () {
-            let data = await getData();
-            dispatch(thunkActionProducts(dispatch, getState, data))
+            let data = await getData(page);
+            dispatch(thunkActionProductsBedding(dispatch, getState, data))
 
         })();
     }, [page])
@@ -30,6 +35,7 @@ function Sofa1() {
     const handle = (val) => {
         setpage(val)
     }
+
     const dta = useSelector((storedData) => {
         return storedData.productReducer.bedding;
     })
@@ -37,7 +43,7 @@ function Sofa1() {
     return (
         <div id="product-list" style={{ width: "90%", margin: "auto" }} >
 
-            <Filters />
+            <Filters getData={getData} page={page} />
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "10px" }}>
 
@@ -49,13 +55,13 @@ function Sofa1() {
                         )
                     })
                 }
-                <Pagination page={page} handle={handle} />
 
             </div>
 
+            <Pagination page={page} total={Math.round(totalpage / 10)} handle={handle} />
         </div>
     )
 }
 
 // aman
-export default Sofa1;
+export default Bedding;

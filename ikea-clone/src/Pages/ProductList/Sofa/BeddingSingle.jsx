@@ -1,16 +1,17 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
+import "./Bs.css"
 function BeddingSingle() {
     const { id } = useParams()
     const dta = useSelector((storedData) => {
-        return storedData.productReducer.bedding;
+        return storedData.productReducer.sofa;
     })
     const data = dta.filter(({ itemNoGlobal }) => {
         return itemNoGlobal === Number(id);
     })
     console.log(data, id)
+
 
     return (
         < div style={{ width: '90%' }} className='mx-auto mt-5'  >
@@ -18,7 +19,9 @@ function BeddingSingle() {
                 data.map(({ contextualImageUrl, mainImageUrl, name, salesPrice_wholeNumber, salesPrice_prefix, typeName, id }) => {
                     return <div className='d-flex'>
                         <div style={{ width: '50%', transition: '.2s ease-in-out' }}>
-                            <img src={mainImageUrl} alt="" style={{ width: '80%', borderRadius: '10px' }} onMouseOver={e => (e.currentTarget.src = contextualImageUrl)} onMouseLeave={e => (e.currentTarget.src = mainImageUrl)} />
+                            {/* <img src={mainImageUrl} alt="" id='visible' />
+                            <img src={contextualImageUrl} alt="" id='hide' /> */}
+                            <img src={mainImageUrl} alt="" style={{ width: '80%', borderRadius: '10px' }} onMouseOver={e => (e.currentTarget.src = contextualImageUrl)} onMouseLeave={e => (e.currentTarget.src = mainImageUrl)} id='temp' />
                         </div>
                         <div style={{ width: '50%', transition: '0.5s' }}>
                             <h5>{name}</h5>
