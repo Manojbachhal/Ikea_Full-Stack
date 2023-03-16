@@ -10,14 +10,12 @@ import cartReducer from "./Reducers/cartReducer";
 import wishReducer from "./Reducers/wishlistReducer";
 import thunk from "redux-thunk";
 import wishlistReducer from "./Reducers/wishlistReducer";
-import listReducer from "./Reducers/listReducer";
 import { productReducer } from "./Reducers/ProductsReducer";
 const combinedRedcers = combineReducers({
   productReducer,
   signupReducer,
   cartReducer,
   wishlistReducer,
-  listReducer,
 });
 
 export const myStore = createstore(

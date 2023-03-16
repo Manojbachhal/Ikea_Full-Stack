@@ -61,7 +61,7 @@ a#right{
     padding-left: 30px;
     scroll-behavior: smooth;
     overflow: scroll;
-    height: 650px;
+    height: 101vh;
     position: fixed;
     top:0px;
     z-index: 10;

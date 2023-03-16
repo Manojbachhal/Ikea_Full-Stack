@@ -24,7 +24,7 @@ import BeddingData from './../../JsonFiles/bedding.json'
 import BedSideTablesData from './../../JsonFiles/bedSideTables.json'
 import MattressData from './../../JsonFiles/mattress.json'
 
-import listFirstAction from '../../Redux/Action/listFirstAction';
+// import listFirstAction from '../../Redux/Action/listFirstAction';
 import { useDispatch } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,8 +34,7 @@ function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleRoute = (dta) => {
-        // console.log("aman");
-        listFirstAction(dta, dispatch);
+        // listFirstAction(dta, dispatch);
     }
 
     const [user, setuser] = useState(JSON.parse(localStorage.getItem('userName')));
@@ -46,65 +45,16 @@ function Navbar() {
     const cartdata = useSelector((store) => {
         return store.cartReducer.cartData
     })
-    // console.log(user)
+    let length = 0;
+    // console.log(cartdata)
+    if (typeof cartdata === 'object') {
+        // console.log(cartdata.length)
+        length = cartdata.length;
+    }
+
 
     const [searchQuery, setSearchQuery] = useState("");
-    const handleSearch = () => {
 
-        switch (searchQuery) {
-            case "Sofa": case "Sofa set": case "sofa set":
-            case "sofa": handleRoute(SofaData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-            case "bed":
-            case "Bed": handleRoute(BedData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "Table": case "Tables": case "tables":
-            case "table": handleRoute(TablesData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "bookscases": case "bookcases": case "Bookcases": case "Book cases": case "book cases": case "Books cases": case "books cases":
-            case "Bookscases": handleRoute(BooksCasesData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "Furnitureset": case "furnitureset": case "furnituresets": case "furniture set":
-            case "Furnituresets": handleRoute(FurnitureSetsData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "Bedding": case "bedding": case "bedcovers": case "bedcover": case "Bedcover":
-            case "Bedcovers": handleRoute(BeddingData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "bedsidetables": case "Bedsidetables": case "bedsidetable":
-            case "Bedsidetable": handleRoute(BedSideTablesData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            case "Mattress": case "mattress": case "cover":
-            case "covers": handleRoute(MattressData.moreProducts.productWindow); navigate('/product-page');
-
-                break;
-
-            default: toast.info('Product Not Available!', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-                break;
-        }
-
-    }
 
 
 
@@ -122,7 +72,7 @@ function Navbar() {
                     <Link to='/'><img src="https://www.ikea.com/in/en/static/ikea-logo.f7d9229f806b59ec64cb.svg" alt="logo" width='100%' /></Link>
 
                     <span id='search1' className=' d-flex mx-3 col-6 p-1 d-none d-md-block' >
-                        <span onClick={handleSearch} > <HiSearch className='col-1' /> </span> <input onChange={(e) => { setSearchQuery(e.target.value) }} style={{ color: "black" }} type="search" placeholder='What are you looking for?' name="" id="search" className=' p-2 col-10 rounded border-0' /><GrCamera /></span>
+                        <span > <HiSearch className='col-1' /> </span> <input onChange={(e) => { setSearchQuery(e.target.value) }} style={{ color: "black" }} type="search" placeholder='What are you looking for?' name="" id="search" className=' p-2 col-10 rounded border-0' /><GrCamera /></span>
 
                     <h4 id="loginsvg" className='col-2 mx-2 sm-col-2 d-flex justify-content-center' style={{ fontSize: '14px', alignItems: "center" }} onClick={() => {
 
@@ -144,7 +94,8 @@ function Navbar() {
                     <h4 className='dch'><Link style={{ textDecoration: 'none', color: 'black', margin: "0 25px" }} to='/favourites' ><AiOutlineHeart /></Link></h4>
                     <div className='carticon'>
                         <h4 className='dch'><Link style={{ textDecoration: 'none', color: 'black' }} to='/cart' ><MdAddShoppingCart /></Link></h4>
-                        <div className="cartqty" style={{ display: cartdata.length > 0 ? "flex" : "none" }}>{cartdata.length}</div>
+                        <div className="cartqty" style={{ display: length > 0 ? "flex" : "none" }}>{length}</div>
+                        {/* cartdata.length */}
                     </div>
 
                 </div>
@@ -183,11 +134,11 @@ function Navbar() {
                                 }
                             }}> <b>Furniture</b>  </Link>
                             <div className='px-5 pb-3' id='submenu1'  >
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' onClick={() => { handleRoute(SofaData.moreProducts.productWindow) }}> Sofas & Sofa-beds </Link>
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' onClick={() => { handleRoute(FurnitureSetsData.moreProducts.productWindow) }}> Furniture sets</Link>
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' onClick={() => { handleRoute(BedData.moreProducts.productWindow) }}> Beds</Link>
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' onClick={() => { handleRoute(BooksCasesData.moreProducts.productWindow) }}> Bookcases & shelving units</Link>
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' onClick={() => { handleRoute(TablesData.moreProducts.productWindow) }}> Tables</Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Sofas & Sofa-beds </Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Furniture sets</Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Beds</Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Bookcases & shelving units</Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Tables</Link>
                             </div>
 
                             <Link id='right' style={{ lineHeight: '40px' }} onClick={() => {

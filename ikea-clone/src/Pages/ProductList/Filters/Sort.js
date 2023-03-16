@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import listAction from "../../../Redux/Action/listAction";
-import listSortAction from "../../../Redux/Action/listFirstAction";
+// import listAction from "../../../Redux/Action/listAction";
+// import listSortAction from "../../../Redux/Action/listFirstAction";
 import thunkActionProductsBedding, {
   LoadingActionOFF,
   LoadingActionON,

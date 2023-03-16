@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import styles from "../Pages/cart.css"
 import { Link } from 'react-router-dom'
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus"
 import { BiMinus } from "@react-icons/all-files/bi/BiMinus"
 import axios from 'axios'
-import { useSelector, useDispatch } from 'react-redux'
-import { myStore } from '../Redux/Store'
-import { cartAction, cartQtyAction, cartSubAction, cartDeleteAction } from '../Redux/Action/cartAction'
+import { useDispatch } from 'react-redux'
+import { cartAction } from '../Redux/Action/cartAction'
 const Cart = () => {
   const dispatch = useDispatch();
   const [cartdata, setCartdata] = useState([]);
   // let cartdata = [];
   const getData = (async () => {
     let data = await axios.get(`http://localhost:4000/products/cart/view`)
-    if (data.data.length > 0) {
-      console.log(data.data)
-      // let res = data.data;
-      cartAction(data.data, dispatch);
-      setCartdata(data.data)
-      // cartdata = data.data
+    // if (data.data.length > 0) {
+    console.log(data.data)
+    // let res = data.data;
+    cartAction(data.data, dispatch);
+    setCartdata(data.data)
+    // cartdata = data.data
 
-    }
+    // }
 
     console.log(data.data)
 
@@ -34,6 +32,7 @@ const Cart = () => {
       cartItem,
       token
     })
+    cartAction(res.data, dispatch);
     setCartdata(res.data)
 
     console.log(res)
@@ -46,6 +45,8 @@ const Cart = () => {
       cartItem,
       token
     })
+    cartAction(res.data, dispatch);
+
     setCartdata(res.data)
 
     console.log(res)
@@ -58,6 +59,8 @@ const Cart = () => {
       cartItem,
       token
     })
+    cartAction(res.data, dispatch);
+
     setCartdata(res.data)
 
   }

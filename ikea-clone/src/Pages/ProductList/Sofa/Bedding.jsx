@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import './Sofa1.css'
-import Sofadata from '../../../JsonFiles/sofa1.json'
 import Filters from "../Filters/Filters";
-import ItemBox from "../ItemBox";
 import { myStore } from "../../../Redux/Store";
 import { useEffect } from "react";
 import thunkActionProductsBedding from "../../../Redux/Action/productAction";
@@ -50,7 +47,6 @@ function Bedding() {
                 {
                     dta.map(({ mainImageUrl, contextualImageUrl, name, salesPrice_wholeNumber, salesPrice_prefix, typeName, itemNoGlobal }) => {
                         return (
-                            // <ItemBox elem={elem} key={index + 1} />
                             <Card id={itemNoGlobal} contextualImageUrl={contextualImageUrl} mainImageUrl={mainImageUrl} name={name} salesPrice_prefix={salesPrice_prefix} typeName={typeName} salesPrice_wholeNumber={salesPrice_wholeNumber} />
                         )
                     })

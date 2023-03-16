@@ -129,11 +129,12 @@ function Payment(props) {
     let displayData = useSelector((storeData) => {
         return storeData.cartReducer.cartData
     })
-    console.log("cart Data ", displayData);
+    // console.log("cart Data ", Data);
 
     let totalAmount = 0;
+    // let displayData = [];
     displayData.map((elem) => {
-        totalAmount = totalAmount + elem.salesPrice.numeral * elem.Qty
+        totalAmount = totalAmount + elem.salesPrice_numeral * elem.quantity
     })
 
 
@@ -156,18 +157,7 @@ function Payment(props) {
 
             <div id="Pay_container">
                 <div id="parent_payment_lft">
-                    {/* <div id="parent_payment_lft_login">
-                        <div>
-                            <h2>Login or sign up</h2>
-                            <p>
-                                Checkout faster with saved details and get access to exclusive
-                                offers
-                            </p>
-                        </div>
-                        <div>
-                            <button id="GotoLogin">LOGIN/SIGNUP</button>
-                        </div>
-                    </div> */}
+
                     <div id="parent_payment_lft_guest">
 
                         <h3 style={{ backgroundColor: "black", color: "white", padding: "10px" }}>Shipping Details</h3>
@@ -350,8 +340,8 @@ function Payment(props) {
                                     <img src={elem.mainImageUrl} alt="" />
                                     <div style={{ marginLeft: "20px" }}>
                                         <h6 style={{ fontSize: "18px", marginBottom: "0px" }}>{elem.name}</h6>
-                                        <div><b style={{ fontWeight: "540", fontSize: "15px" }}> Quantity :  </b>{elem.Qty}</div>
-                                        <div> ₹ <span >{elem.salesPrice.numeral}</span> </div>
+                                        <div><b style={{ fontWeight: "540", fontSize: "15px" }}> Quantity :  </b>{elem.qantity}</div>
+                                        <div> ₹ <span >{elem.salesPrice_numeral}</span> </div>
                                     </div>
 
                                 </div>

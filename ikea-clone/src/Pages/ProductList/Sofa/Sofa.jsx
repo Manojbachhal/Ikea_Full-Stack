@@ -9,25 +9,29 @@ import { useSelector } from "react-redux";
 import Card from "./Card";
 import Pagination from "./Pagination";
 import Loading from "./Loading";
+import { cartAction } from "../../../Redux/Action/cartAction";
 
 function Sofa() {
     const { dispatch, getState } = myStore;
     const [page, setpage] = useState(1);
     const [totalpage, settotal] = useState(0);
-    const [Data, setData] = useState([]);
     const getData = (async (page) => {
+
+
         let data = await axios.get(`http://localhost:4000/products/sofa?page=${page}`)
-        // console.log(data.data.data);
+
+
         settotal(data.data.data.totalPage)
-        setData(data.data.data.data);
         return data.data.data.data;
     })
+
     useEffect(() => {
         (async function () {
             let data = await getData(page);
+            // getData(page);
             dispatch(thunkActionProductsSofa(dispatch, getState, data))
-            console.log("useEffect")
         })();
+
     }, [page])
 
 
@@ -38,9 +42,17 @@ function Sofa() {
     const dta = useSelector((storedData) => {
         return storedData.productReducer.sofa;
     })
+    const getCartData = (async () => {
+        let d = await axios.get(`http://localhost:4000/products/cart/view`)
+        cartAction(d.data, dispatch);
+
+
+    })
     const loading = useSelector((dta) => {
         return dta.productReducer.isLoading;
     });
+    getCartData();
+
     // console.log(dta, 'dta')
     return (loading ? <Loading /> : < div id="product-list" style={{ width: "90%", margin: "auto" }} >
 
