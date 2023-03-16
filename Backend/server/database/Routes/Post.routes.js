@@ -18,7 +18,9 @@ const {
 } = require("../Controllers/PostController/PostController");
 
 const router = express.Router();
-
+router.get("/", async (req, res) => {
+  res.send(`<h1>Welcome</h1>`);
+});
 router.get("/bedding", async (req, res) => {
   let { page, sort } = req.query;
   if (!sort) {
