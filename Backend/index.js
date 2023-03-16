@@ -1,8 +1,8 @@
 const express = require("express");
-const Connection = require("./database/Connection");
+const Connection = require("./server/database/Connection");
 const app = express();
-const loginroutes = require("./database/Routes/Login.route");
-const productroutes = require("./database/Routes/Post.routes");
+const loginroutes = require("./server/database/Routes/Login.route");
+const productroutes = require("./server/database/Routes/Post.routes");
 const cors = require("cors");
 
 app.use(
