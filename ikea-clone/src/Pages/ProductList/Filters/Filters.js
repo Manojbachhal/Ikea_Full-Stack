@@ -1,7 +1,6 @@
 import React from "react";
 import { FiChevronDown } from "@react-icons/all-files/fi/FiChevronDown";
 import { RiFilterOffLine } from "@react-icons/all-files/ri/RiFilterOffLine";
-
 import Sort from "../Filters/Sort";
 import NumOfSeats from "./NumOfSeats";
 import Category from "./Category";
@@ -10,7 +9,7 @@ import Shape from "./Shape";
 import { useState } from "react";
 import "./../Sofa/Sofa1.css";
 import { useDispatch, useSelector } from "react-redux";
-import listAction from "../../../Redux/Action/listAction";
+// import listAction from "../../../Redux/Action/listAction";
 import { myStore } from "../../../Redux/Store";
 import thunkActionProductsBedding from "../../../Redux/Action/productAction";
 
