@@ -77,7 +77,7 @@ function Sort({ page }) {
 
         break;
       case "Price : high to low":
-        // dispatch(LoadingActionON(dispatch));
+        dispatch(LoadingActionON(dispatch));
         (async function () {
           let data = await axios.get(
             `http://localhost:4000/products/sofa?page=${page}&sort=dsc`
@@ -88,7 +88,7 @@ function Sort({ page }) {
               thunkActionProductsSofa(dispatch, getState, data.data.data.data)
             );
           }
-          // dispatch(LoadingActionOFF(dispatch));
+          dispatch(LoadingActionOFF(dispatch));
 
           // console.log(data.data.data.data);
         })();

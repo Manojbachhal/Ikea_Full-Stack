@@ -2,7 +2,7 @@ import React from 'react'
 import './Loading.css'
 function Loading() {
     return (
-        <div class="spinner-box" style={{ backgroundColor: '#000000ba' }} >
+        <div class="spinner-box" style={{ backgroundColor: 'rgb(62 67 13 / 73%)' }} >
             <div class="blue-orbit leo">
             </div>
 

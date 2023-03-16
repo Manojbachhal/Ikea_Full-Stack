@@ -11,17 +11,17 @@ const Cart = () => {
   const [cartdata, setCartdata] = useState([]);
   // let cartdata = [];
   const getData = (async () => {
-    let data = await axios.get(`http://localhost:4000/products/cart/view`)
+    let token = JSON.parse(localStorage.getItem('Token'))
+
+    let data = await axios.post(`http://localhost:4000/products/cart/view`, {
+      token
+    })
     // if (data.data.length > 0) {
     console.log(data.data)
     // let res = data.data;
     cartAction(data.data, dispatch);
     setCartdata(data.data)
     // cartdata = data.data
-
-    // }
-
-    console.log(data.data)
 
   })
 
@@ -35,7 +35,7 @@ const Cart = () => {
     cartAction(res.data, dispatch);
     setCartdata(res.data)
 
-    console.log(res)
+    // console.log(res)
 
   }
   const updateDeleteData = async (cartItem) => {
@@ -44,12 +44,11 @@ const Cart = () => {
     let res = await axios.post(`http://localhost:4000/products/cart/remove`, {
       cartItem,
       token
-    })
+    }, [cartdata])
     cartAction(res.data, dispatch);
 
     setCartdata(res.data)
 
-    console.log(res)
 
   }
   const cartDelete = async (cartItem) => {
@@ -65,9 +64,7 @@ const Cart = () => {
 
   }
   useEffect(() => {
-    // (async function () {
     getData();
-    // })();
   }, [])
 
   var Totalprice = 0

@@ -255,20 +255,10 @@
     /* background-color: rgb(185, 106, 9); */
     text-align: center;
   }
-  #parent_payment_lft_submit > button {
-    background-color: black;
-    color: white;
-    padding: 20px;
-    border: 0px;
-    width: 100%;
-    font-size: 18px;
-  }
-  #parent_payment_lft_submit > button:hover {
-    background-color: rgb(12, 179, 191);
-    color: white;
-    padding: 20px;
-    width: 100%;
-    cursor: pointer;
+   #Submit_my_Order {
+   margin-top: 20px;
+    padding: 10px 20px;
+    
   }
   
   /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--------parent_payment_right-------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */

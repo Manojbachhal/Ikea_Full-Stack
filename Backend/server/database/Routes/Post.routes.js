@@ -14,6 +14,7 @@ const {
   showCartData,
   updateCartData,
   removeproduct,
+  emptycart,
 } = require("../Controllers/PostController/PostController");
 
 const router = express.Router();
@@ -125,9 +126,9 @@ router.post("/cart/add", async (req, res) => {
   res.send(response);
 });
 
-router.get("/cart/view", async (req, res) => {
-  // console.log("res");
-  let response = await showCartData();
+router.post("/cart/view", async (req, res) => {
+  let data = req.body;
+  let response = await showCartData(data);
   res.send(response);
 });
 
@@ -139,6 +140,12 @@ router.post("/cart/remove", async (req, res) => {
 router.post("/cart/remove-product", async (req, res) => {
   let data = req.body;
   let response = await removeproduct(data);
+  res.send(response);
+});
+
+router.post("/cart/empty-cart", async (req, res) => {
+  let data = req.body;
+  let response = await emptycart(data);
   res.send(response);
 });
 

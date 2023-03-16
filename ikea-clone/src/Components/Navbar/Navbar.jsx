@@ -59,7 +59,7 @@ function Navbar() {
 
 
     return (
-        <>
+        < >
             <nav className="" style={{ position: "fixed", top: "0", backgroundColor: "white", width: "100%", zIndex: "10" }}>
 
 
@@ -134,7 +134,7 @@ function Navbar() {
                                 }
                             }}> <b>Furniture</b>  </Link>
                             <div className='px-5 pb-3' id='submenu1'  >
-                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Sofas & Sofa-beds </Link>
+                                <Link id='right' style={{ lineHeight: '40px' }} to='/product-page'  > Sofas & Sofa-beds </Link>
                                 <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Furniture sets</Link>
                                 <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Beds</Link>
                                 <Link id='right' style={{ lineHeight: '40px' }} to='/product-page' > Bookcases & shelving units</Link>

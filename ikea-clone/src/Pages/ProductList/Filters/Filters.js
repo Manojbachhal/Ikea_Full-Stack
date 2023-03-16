@@ -9,12 +9,13 @@ import Shape from "./Shape";
 import { useState } from "react";
 import "./../Sofa/Sofa1.css";
 import { useDispatch, useSelector } from "react-redux";
-// import listAction from "../../../Redux/Action/listAction";
 import { myStore } from "../../../Redux/Store";
-import thunkActionProductsBedding from "../../../Redux/Action/productAction";
-
-function Filters({ getData, page }) {
-  //   console.log(data, "filter");
+import {
+  LoadingActionOFF,
+  LoadingActionON,
+  thunkActionProductsSofa,
+} from "../../../Redux/Action/productAction";
+function Filters({ getData, url, page }) {
   const { dispatch, getState } = myStore;
   const [filterBox, setFilterBox] = useState("");
 
@@ -23,9 +24,12 @@ function Filters({ getData, page }) {
   });
 
   const clearFilters = async () => {
+    dispatch(LoadingActionON(dispatch));
     setFilterBox("CLEAR");
-    let data = await getData(page);
-    dispatch(thunkActionProductsBedding(dispatch, getState, data));
+    let data = await getData(page, url);
+    console.log(data);
+    dispatch(thunkActionProductsSofa(dispatch, getState, data));
+    dispatch(LoadingActionOFF(dispatch));
   };
 
   return (
@@ -89,7 +93,7 @@ function Filters({ getData, page }) {
       </div>
 
       <div>
-        {filterBox == "SORT" ? <Sort page={page} /> : <></>}
+        {filterBox == "SORT" ? <Sort url={url} page={page} /> : <></>}
         {filterBox == "NOS" ? <NumOfSeats /> : <></>}
         {filterBox == "CATEGORY" ? <Category /> : <></>}
         {filterBox == "PRICE" ? <Price /> : <></>}

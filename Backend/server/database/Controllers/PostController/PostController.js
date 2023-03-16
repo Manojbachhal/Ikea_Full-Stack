@@ -169,9 +169,12 @@ const getDataUnderBedStorage = async (page, sort) => {
   return data;
 };
 
-const showCartData = async () => {
-  let res = await Cart.find();
-  // console.log(res);
+const showCartData = async (data) => {
+  console.log(data);
+  let token = data.token;
+  let user = verifyTOken(token);
+  let email = user.email;
+  let res = await Cart.find({ email });
   return res;
 };
 
@@ -179,26 +182,24 @@ const createCartData = async (Data) => {
   let user = verifyTOken(Data.token);
   let email = user.email;
   Data.cartItem.email = email;
-  // console.log(Data.cartItem);
   let itemNoGlobal = Data.cartItem.itemNoGlobal;
 
-  let data = await Cart.findOne({ email, itemNoGlobal });
-  // console.log(data, "cart");
-  if (data) {
+  let data = await Cart.find({ email, itemNoGlobal });
+  if (data.length > 0) {
+    data = data[0];
     let res = await Cart.findOneAndUpdate(
       { email, itemNoGlobal },
-      { quantity: data.quantity + 1 }
+      { quantity: +data.quantity + 1 }
     );
-    res = await Cart.find();
-    // data.quantity += 1;
+    res = await Cart.find({ email });
     return res;
   } else {
     Data.cartItem.quantity = 1;
     delete Data.cartItem._id;
     delete Data.cartItem.id;
-    // console.log(Data.cartItem);
     await Cart.create(Data.cartItem);
-    let res = await showCartData();
+
+    let res = await Cart.find({ email });
     return res;
   }
 };
@@ -207,21 +208,19 @@ const updateCartData = async (Data) => {
   let user = verifyTOken(Data.token);
   let email = user.email;
   Data.cartItem.email = email;
-  // console.log(Data.cartItem);
   let itemNoGlobal = Data.cartItem.itemNoGlobal;
 
   let data = await Cart.findOne({ email, itemNoGlobal });
-  // console.log(data, "cart");
   if (data.quantity == 1) {
     await Cart.findOneAndRemove({ email, itemNoGlobal });
-    let res = await showCartData();
+    let res = await Cart.find({ email });
     return res;
   } else if (data) {
     let res = await Cart.findOneAndUpdate(
       { email, itemNoGlobal },
       { quantity: data.quantity - 1 }
     );
-    res = await Cart.find();
+    res = await Cart.find({ email });
     // data.quantity += 1;
     return res;
   }
@@ -234,9 +233,18 @@ const removeproduct = async (Data) => {
   // console.log(Data.cartItem);
   let itemNoGlobal = Data.cartItem.itemNoGlobal;
   await Cart.findOneAndRemove({ email, itemNoGlobal });
-  let res = await showCartData();
+
+  let res = await Cart.find({ email });
   return res;
 };
+const emptycart = async (data) => {
+  let token = data.token;
+  let user = verifyTOken(token);
+  let email = user.email;
+  let res = await Cart.deleteMany({ email });
+  return res;
+};
+
 module.exports = {
   getDataBedSideTable,
   getDataBedding,
@@ -251,4 +259,5 @@ module.exports = {
   showCartData,
   updateCartData,
   removeproduct,
+  emptycart,
 };

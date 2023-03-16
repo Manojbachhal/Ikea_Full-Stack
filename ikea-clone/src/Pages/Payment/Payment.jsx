@@ -1,13 +1,15 @@
 import React from 'react';
 import './Payment.css'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+import { cartAction } from '../../Redux/Action/cartAction';
 
 function Payment(props) {
-
+    const dispatch = useDispatch()
     const navigate = useNavigate();
 
     function callPrice() {
@@ -21,92 +23,16 @@ function Payment(props) {
 
     }
 
-    var JobData = JSON.parse(localStorage.getItem("paymentdetails")) || [];
+    // var JobData = JSON.parse(localStorage.getItem("paymentdetails")) || [];
 
-    function AddData() {
-
-
+    async function AddData() {
+        console.log('test')
+        let token = JSON.parse(localStorage.getItem('Token'))
+        let res = await axios.post('http://localhost:4000/products/cart/empty-cart', {
+            token
+        })
         var check = true;
-
-        var Email = document.getElementById("EnterEmail").value;
-        var Country = document.getElementById("Choose_Country").value;
-        var Fullnme = document.getElementById("FullName").value;
-        var Zip = document.getElementById("ZipCode").value;
-        var Compeny = document.getElementById("Compny").value;
-        var Adrs = document.getElementById("Addrs").value;
-        var Adrs2 = document.getElementById("Addrs2").value;
-        var Aprt = document.getElementById("Apprt").value;
-        var Twn = document.getElementById("Town").value;
-        var CntctNo = document.getElementById("ContactNo").value;
-        var CrdNo = document.getElementById("CardNO").value;
-        var Nmeoncard = document.getElementById("NameonCard").value;
-        var Expirymonth = document.getElementById("Expiry_Month").value;
-        var Expiryyear = document.getElementById("Expiry_year").value;
-        var Securitycode = document.getElementById("security_code").value;
-        var Paymentmtd = document.querySelector(".selectpaymentmtd").value;
-        if (Email === "" || Email == null) {
-            check = false;
-            alert("Please Enter Correct Email Address");
-        } else
-            if (Country == "" || Country == null) {
-                check = false;
-                alert("Please Enter Correct Country Name");
-            } else
-                if (Fullnme == "" || Fullnme == null) {
-                    check = false;
-                    alert("Please Enter Correct Name");
-                } else
-                    if (Zip == "" || Zip == null) {
-                        check = false;
-                        alert("Please Enter Correct ZIP CODE");
-                    } else
-                        if (Compeny == "" || Compeny == null) {
-                            check = false;
-                            alert("Please Enter Correct Compeny Name");
-                        } else
-                            if (Adrs == "" || Adrs == null) {
-                                check = false;
-                                alert("Please Enter Correct Address");
-                            } else
-                                if (Adrs2 == "" || Adrs2 == null) {
-                                    check = false;
-                                    alert("Please Enter Correct Address");
-                                } else
-                                    if (CntctNo == "" || CntctNo == null) {
-                                        check = false;
-                                        alert("Please Enter Correct Contact Number");
-                                    } else
-                                        if (CrdNo == "" || CrdNo == null) {
-                                            check = false;
-                                            alert("Please Enter Correct Card Number");
-                                        } else
-                                            if (Nmeoncard == "" || Nmeoncard == null) {
-                                                check = false;
-                                                alert("Please Enter Correct Card Name");
-                                            } else
-                                                if (Expirymonth == "" || Expirymonth == null) {
-                                                    check = false;
-                                                    alert("Please Enter Expiry Month");
-                                                } else
-                                                    if (Expiryyear == "" || Expiryyear == null) {
-                                                        check = false;
-                                                        alert("Please Enter Expiry Year");
-                                                    }
-                                                    else
-                                                        if (Securitycode == "" || Securitycode == null) {
-                                                            check = false;
-                                                            alert("Please Enter Correct Security Code");
-                                                        }
-                                                        else
-                                                            if (Paymentmtd == "" || Paymentmtd == null) {
-                                                                check = false;
-                                                                alert("Please Enter Correct Payment Method");
-                                                            }
-
-        var obj = { pemail: Email, pcountry: Country, pfullname: Fullnme, pzip: Zip, pcompeny: Compeny, paddress: Adrs, paddress2: Adrs2, pappartment: Aprt, ptown: Twn, pcontactno: CntctNo, pcardno: CrdNo, pnameoncard: Nmeoncard, pexpmonth: Expirymonth, pexpyear: Expiryyear, psecuritycode: Securitycode, paymentmethod: Paymentmtd };
-
-        JobData.push(obj);
-        localStorage.setItem("paymentdetails", JSON.stringify(JobData));
+        cartAction([], dispatch);
 
         if (check) {
             toast.success('Your order has been placed !', {
@@ -120,8 +46,6 @@ function Payment(props) {
                 theme: "colored",
             });
             navigate("/");
-
-
         }
 
     }
@@ -160,15 +84,14 @@ function Payment(props) {
 
                     <div id="parent_payment_lft_guest">
 
-                        <h3 style={{ backgroundColor: "black", color: "white", padding: "10px" }}>Shipping Details</h3>
+                        <h3 style={{ fontWeight: '300', textAlign: 'center', marginBottom: '5%' }}>Shipping Details</h3>
 
-                        <h4>1.Email and delivery address</h4>
+                        <h4 style={{ fontWeight: '300' }}>Email and delivery address</h4>
                         <form>
-                            <p>*Email address</p>
-                            <input id="EnterEmail" type="email" />
-                            <p>We'll send the purchase receipt to this email.</p>
-                            <p>*Country/Region</p>
-                            <select name="Country" id="Choose_Country" style={{ width: "95%" }}>
+                            <p style={{ fontWeight: '600' }}>Email address</p>
+                            <input id="EnterEmail" type="email" required />
+                            <p style={{ fontWeight: '600' }}>Country/Region</p>
+                            <select name="Country" id="Choose_Country" style={{ width: "95%", marginBottom: '20px' }}>
                                 <option value="">- Select Country -</option>
                                 <option value="india">India</option>
                                 <option value="qatar">Qatar</option>
@@ -176,66 +99,63 @@ function Payment(props) {
                                 <option value="nepal">Nepal</option>
                                 <option value="England">England</option>
                             </select>
-                            <p>*Full Name</p>
-                            <input id="FullName" type="text" />
-                            <p>*Zip Code/Postcode</p>
-                            <input id="ZipCode" type="text" />
-                            <p>Company name</p>
-                            <input id="Compny" type="text" />
-                            <p>*Address</p>
-                            <input id="Addrs" type="text" />
-                            <p>Address 2</p>
-                            <input id="Addrs2" type="text" />
-                            <p>*Apartment/Suite number</p>
+                            <p style={{ fontWeight: '600' }}>Full Name</p>
+                            <input id="FullName" type="text" required />
+                            <p style={{ fontWeight: '600' }}>Zip Code/Postcode</p>
+                            <input id="ZipCode" type="text" required />
+                            {/* <p style={{ fontWeight: '600' }}>Company name</p>
+                            <input id="Compny" type="text" /> */}
+                            <p style={{ fontWeight: '600' }}>Address</p>
+                            <input id="Addrs" type="text" required />
+                            {/* <p style={{ fontWeight: '600' }}>Address 2</p>
+                            <input id="Addrs2" type="text" /> */}
+                            <p style={{ fontWeight: '600' }}>Apartment/Suite number</p>
                             <input id="Apprt" type="text" />
 
 
-                            <p>*Town/City</p>
-                            <input id="Town" type="text" />
+                            <p style={{ fontWeight: '600' }}>Town/City</p>
+                            <input id="Town" type="text" required />
 
-                            <p>Contact Number</p>
-                            <input id="ContactNo" type="text" />
-                            <div id="parent_quest">
+                            {/* <p style={{ fontWeight: '600' }}>Contact Number</p>
+                            <input id="ContactNo" type="text" /> */}
+                            {/* <div id="parent_quest">
                                 <button><Link>Why do we need your number?</Link></button>
-                            </div>
+                            </div> */}
                         </form>
-                    </div>
-                    <div id="parent_payment_lft_delivery">
-                        <h4>2. Select Delivery Option</h4>
-                        <div >
-                            <p style={{ marginBottom: "50px" }} ><i className="fa-solid fa-circle-info"></i> enter your address so we can calculate your delivery options.</p>
-                        </div>
                     </div>
                     <div id="parent_payment_lft_paymentMethod" >
                         <div>
-                            <h4>3. Select Payment Method</h4>
+                            <h4 style={{ fontWeight: '300' }}>Select Payment Method</h4>
                             <div  >
                                 <div id="border_select" style={{ padding: "10px" }} >
                                     <h5>Credit/Debit Card</h5>
                                     <div>
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/3c2e42cbf9d0b0df0d3b3bb81aa41d6a.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/57987be4eb98b4c77644d93d92df80fa.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/932e82ef072c7df18e91e66b96dfdf5d.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/6732c0137a7dab50b23daf1337fe2f30.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/0528692e7541ff3755880b3408793969.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/8ba3dc816042268141a2205e3bfc3971.svg"
-                                            alt="miss pic" />
-                                        <img src="https://s1.thcdn.com/checkout/resources/images/248074ffdeeeaeffed9c5db35f35fe45.svg"
-                                            alt="miss pic" />
-                                        <p>*Card Number</p>
-                                        <input id="CardNO" type="text" style={{ width: "97.5%" }} />
+                                        <div className='d-flex justify-content-evenly'>
 
-                                        <p>*Name on card</p>
-                                        <input id="NameonCard" type="text" style={{ width: "97.5%" }} />
-                                        <p>*Expiry Date</p>
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/3c2e42cbf9d0b0df0d3b3bb81aa41d6a.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/57987be4eb98b4c77644d93d92df80fa.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/932e82ef072c7df18e91e66b96dfdf5d.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/6732c0137a7dab50b23daf1337fe2f30.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/0528692e7541ff3755880b3408793969.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/8ba3dc816042268141a2205e3bfc3971.svg"
+                                                alt="miss pic" />
+                                            <img src="https://s1.thcdn.com/checkout/resources/images/248074ffdeeeaeffed9c5db35f35fe45.svg"
+                                                alt="miss pic" />
+                                        </div>
+                                        <p>Card Number</p>
+                                        <input id="CardNO" type="text" style={{ width: "97.5%" }} required />
+
+                                        <p>Name on card</p>
+                                        <input id="NameonCard" type="text" style={{ width: "97.5%" }} required />
+                                        <p>Expiry Date</p>
 
                                         <div id="expiry">
-                                            <select name="Expiry" id="Expiry_Month" style={{ width: "42%" }}>
+                                            <select name="Expiry" id="Expiry_Month" style={{ width: "50%" }}>
                                                 <option value="">Month</option>
                                                 <option value="01">01</option>
                                                 <option value="02">02</option>
@@ -250,7 +170,7 @@ function Payment(props) {
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
                                             </select>
-                                            <select name="Expiry" id="Expiry_year" style={{ width: "42%" }}>
+                                            <select name="Expiry" id="Expiry_year" style={{ width: "48%" }}>
                                                 <option value="">Year</option>
                                                 <option value="22">22</option>
                                                 <option value="23">23</option>
@@ -265,20 +185,17 @@ function Payment(props) {
                                         </div>
                                         <div>
                                             <br />
-                                            <p>*Security Code (CV2)</p>
+                                            <p>Security Code (CV2)</p>
                                             <input type="text" id="security_code" />
-                                            <button id="question_btn">?</button>
+                                            <button id="question_btn" style={{ margin: '20px' }}>?</button>
                                         </div>
-                                        <div>
-                                            <input type="checkbox" id="checkBox_method" />
-                                            <label for="vehicle1">Use my shipping address as my cardholder address</label>
-                                        </div>
+
 
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="PaymentOptionsAn">
+                            {/* <div id="PaymentOptionsAn">
 
 
 
@@ -306,12 +223,11 @@ function Payment(props) {
                                     </button>
                                 </div>
 
-                            </div>
+                            </div> */}
+                            <button id="Submit_my_Order" onClick={AddData} type="button" class="btn btn-dark">SUMBIT MY ORDER</button>
                         </div>
 
-                        <div id="parent_payment_lft_submit">
-                            <button id="Submit_my_Order" onClick={AddData}>SUMBIT MY ORDER</button>
-                        </div>
+
                         <div id="termCondition">
                             <p>
                                 By placing this order, you are confirming that you agree to our

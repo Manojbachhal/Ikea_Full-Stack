@@ -4,7 +4,7 @@ import './Sofa1.css'
 import Filters from "../Filters/Filters";
 import { myStore } from "../../../Redux/Store";
 import { useEffect } from "react";
-import { thunkActionProductsSofa } from "../../../Redux/Action/productAction";
+import { LoadingActionOFF, LoadingActionON, thunkActionProductsSofa } from "../../../Redux/Action/productAction";
 import { useSelector } from "react-redux";
 import Card from "./Card";
 import Pagination from "./Pagination";
@@ -12,13 +12,15 @@ import Loading from "./Loading";
 import { cartAction } from "../../../Redux/Action/cartAction";
 
 function Sofa() {
+
     const { dispatch, getState } = myStore;
     const [page, setpage] = useState(1);
     const [totalpage, settotal] = useState(0);
-    const getData = (async (page) => {
+    const url = ` http://localhost:4000/products/sofa?page=${page}`;
+    const getData = (async (page, url) => {
 
 
-        let data = await axios.get(`http://localhost:4000/products/sofa?page=${page}`)
+        let data = await axios.get(url)
 
 
         settotal(data.data.data.totalPage)
@@ -27,9 +29,13 @@ function Sofa() {
 
     useEffect(() => {
         (async function () {
-            let data = await getData(page);
+            dispatch(LoadingActionON(dispatch));
+
+            let data = await getData(page, url);
             // getData(page);
             dispatch(thunkActionProductsSofa(dispatch, getState, data))
+            dispatch(LoadingActionOFF(dispatch));
+
         })();
 
     }, [page])
@@ -43,7 +49,11 @@ function Sofa() {
         return storedData.productReducer.sofa;
     })
     const getCartData = (async () => {
-        let d = await axios.get(`http://localhost:4000/products/cart/view`)
+        let token = JSON.parse(localStorage.getItem('Token'))
+
+        let d = await axios.post(`http://localhost:4000/products/cart/view`, {
+            token
+        })
         cartAction(d.data, dispatch);
 
 
@@ -56,7 +66,7 @@ function Sofa() {
     // console.log(dta, 'dta')
     return (loading ? <Loading /> : < div id="product-list" style={{ width: "90%", margin: "auto" }} >
 
-        <Filters getData={getData} page={page} />
+        <Filters getData={getData} url={`http://localhost:4000/products/sofa?page=${page}`} page={page} />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "10px" }}>
 
