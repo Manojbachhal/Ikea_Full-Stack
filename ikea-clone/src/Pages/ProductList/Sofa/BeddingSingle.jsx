@@ -1,31 +1,61 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'
 import { cartAction } from '../../../Redux/Action/cartAction';
+import { LoadingActionOFF, LoadingActionON } from '../../../Redux/Action/productAction';
+import { ToastContainer, toast } from 'react-toastify'
+import Loading from './Loading'
 function BeddingSingle() {
     const dispatch = useDispatch();
     const { id } = useParams()
     const dta = useSelector((storedData) => {
         return storedData.productReducer.sofa;
     })
-    const data = dta.filter(({ itemNoGlobal }) => {
+    let data = dta.filter(({ itemNoGlobal }) => {
         return itemNoGlobal === Number(id);
     })
+    if (data.length == 0) {
+        data = JSON.parse(localStorage.getItem('singlepage'))
+    }
+    // console.log(temp)
+    // useEffect(() => {
+
+    // })
     console.log(data, id)
+    if (data.length === 1) {
+
+        localStorage.setItem('singlepage', JSON.stringify(data))
+    }
 
     const cardAdd = async () => {
+        toast.success('Adding to cart!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         let cartItem = data[0];
+        // dispatch(LoadingActionON(dispatch));
         let token = JSON.parse(localStorage.getItem('Token'))
         let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/add`, {
             cartItem,
             token
         })
         dispatch(cartAction(res.data, dispatch))
-        console.log(res.data)
+        // dispatch(LoadingActionOFF(dispatch));
+
+        // console.log(res.data)
     }
-    return (
-        < div style={{ width: '90%' }} className='mx-auto mt-5'  >
+    const loading = useSelector((dta) => {
+        return dta.productReducer.isLoading;
+    });
+    return (loading ? <Loading /> :
+        <  div style={{ width: '90%' }} className='mx-auto mt-5'  >
             {
                 data.map(({ contextualImageUrl, mainImageUrl, name, salesPrice_wholeNumber, salesPrice_prefix, typeName, id }) => {
                     return <div className='d-flex'>
@@ -51,7 +81,7 @@ function BeddingSingle() {
                                     }} />
                                 <p>Extra 50% off on each discounted product when you buy 2 discounted products (or in multiples of 2), final discounted price will be displayed in the cart. NO COUPON REQUIRED.</p>
                             </div>
-                            <button className=' fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-warning' style={{ letterSpacing: '1px', background: 'linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%)' }} onClick={cardAdd}>Add To Cart</button>
+                            <button className=' fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-dark' style={{ letterSpacing: '1px', background: 'linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%)' }} onClick={cardAdd}>Add To Cart</button>
                         </div>
                     </div>
 

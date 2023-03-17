@@ -6,6 +6,8 @@ import { BiMinus } from "@react-icons/all-files/bi/BiMinus"
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { cartAction } from '../Redux/Action/cartAction'
+import { ToastContainer, toast } from 'react-toastify'
+
 const Cart = () => {
   const dispatch = useDispatch();
   const [cartdata, setCartdata] = useState(useSelector((el) => {
@@ -20,16 +22,26 @@ const Cart = () => {
     let data = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/view`, {
       token
     })
-    // if (data.data.length > 0) {
-    console.log(data.data)
-    // let res = data.data;
-    cartAction(data.data, dispatch);
-    setCartdata(data.data)
-    // cartdata = data.data
-
+    if (data.data.length > 0) {
+      console.log(data.data)
+      // let res = data.data;
+      cartAction(data.data, dispatch);
+      setCartdata(data.data)
+      // cartdata = data.data
+    }
   })
 
   const updateData = async (cartItem) => {
+    toast.success('Updating cart!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
     let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/add`, {
@@ -43,6 +55,16 @@ const Cart = () => {
 
   }
   const updateDeleteData = async (cartItem) => {
+    toast.success('Updating cart!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
     let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/remove`, {
@@ -56,6 +78,17 @@ const Cart = () => {
 
   }
   const cartDelete = async (cartItem) => {
+
+    toast.error('Removing Product!', {
+      position: "top-left",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
     let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/remove-product`, {
@@ -68,6 +101,7 @@ const Cart = () => {
 
   }
   useEffect(() => {
+    getData();
     getData();
   }, [])
 

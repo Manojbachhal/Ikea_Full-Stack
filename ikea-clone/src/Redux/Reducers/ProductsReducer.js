@@ -1,7 +1,7 @@
 const intialData = {
   bedding: [],
   sofa: [],
-  isLoading: true,
+  isLoading: false,
 };
 
 export const productReducer = (state = intialData, action) => {

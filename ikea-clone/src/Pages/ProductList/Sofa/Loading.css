@@ -113,7 +113,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid #fafbfC;
+      border: 3px solid #fafbfC;
       border-radius: 50%;
   } 
   
@@ -162,28 +162,28 @@
   .blue-orbit {
       width: 165px;
       height: 165px;
-    border: 1px solid #05acffa5;
+    border: 3px solid #05acffa5;
     -webkit-animation: spin3D 3s linear .2s infinite;
   }
   
   .green-orbit {
       width: 120px;
       height: 120px;
-    border: 1px solid #00ff6aa5;
+    border: 3px solid #00ff6aa5;
     -webkit-animation: spin3D 2s linear 0s infinite;
   }
   
   .red-orbit {
       width: 90px;
       height: 90px;
-    border: 1px solid #ff8503a5;
+    border: 3px solid #ff8503a5;
     -webkit-animation: spin3D 1s linear 0s infinite;
   }
   
   .white-orbit {
       width: 60px;
       height: 60px;
-    border: 2px solid #ffffff;
+    border: 3px solid #ffffff;
     -webkit-animation: spin3D 10s linear 0s infinite;
   }
   
