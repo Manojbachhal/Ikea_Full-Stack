@@ -187,7 +187,7 @@ function Navbar() {
 
 
 
-                <div id='rightSidebar' style={{ display: 'none' }} >
+                <div id='rightSidebar' style={{ display: 'none', height: '100vh' }} >
 
                     <div className='p-4 ' style={{ backgroundColor: '#0058A3' }}>
                         <p className='text-end px-4 ' onClick={() => {
@@ -218,7 +218,7 @@ function Navbar() {
 
                     </div>
 
-                    <div className='p-3 px-5 bg-white' style={{ height: '300px', textAlign: 'initial' }}>
+                    <div className='p-3 px-5 bg-white' style={{ height: '400px', textAlign: 'initial' }}>
                         <p id='hov' >Purchase history</p>
                         <p id='hov' >Shopping list</p>
                         <p id='hov' >Planners</p>

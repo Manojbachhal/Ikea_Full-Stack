@@ -14,7 +14,7 @@ function Login() {
         try {
             let Token = JSON.parse(localStorage.getItem("Token"));
 
-            let Logindata = await axios.get('http://localhost:4000/user/loggedin', Headers = {
+            let Logindata = await axios.get('https://courageous-elk-boot.cyclic.app/user/loggedin', Headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${Token}`,
             }
@@ -55,7 +55,7 @@ function Login() {
         e.preventDefault();
         try {
 
-            let Logindata = await axios.post('http://localhost:4000/user/login',
+            let Logindata = await axios.post('https://courageous-elk-boot.cyclic.app/user/login',
 
                 {
                     "email": inputData.email,

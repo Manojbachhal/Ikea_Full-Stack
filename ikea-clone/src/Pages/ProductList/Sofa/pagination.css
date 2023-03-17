@@ -1,13 +1,16 @@
 .btn-2 {
-    background: rgb(96,9,240);
-    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+    /* background: rgb(96,9,240); */
+    height: 34px;
+    width: 78px;
+    border-radius: 10px;
+    background: linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%);
     border: none;
     
   }
-  .btn-2:before {
+  /* .btn-2:before {
     height: 0%;
     width: 2px;
-  }
+  } */
   .btn-2:hover {
     box-shadow:  4px 4px 6px 0 rgba(255,255,255,.5),
                 -4px -4px 6px 0 rgba(116, 125, 136, .5), 
@@ -16,15 +19,18 @@
   }
 
   .btn-6{
-    background: rgb(96,9,240);
-    background: linear-gradient(0deg, rgba(96,9,240,1) 0%, rgba(129,5,240,1) 100%);
+    /* background: rgb(96,9,240); */
+    height: 34px;
+    width: 78px;
+    border-radius: 10px;
+    background: linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%);
     border: none;
-    margin: 10px;
+    /* margin: 10px; */
     width: 40px;
     color: white;
   }
-  .btn-6:before {
+  /* .btn-6:before {
     height: 0%;
     width: 2px;
-  }
+  } */
   

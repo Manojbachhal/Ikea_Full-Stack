@@ -17,7 +17,7 @@ function BeddingSingle() {
     const cardAdd = async () => {
         let cartItem = data[0];
         let token = JSON.parse(localStorage.getItem('Token'))
-        let res = await axios.post(`http://localhost:4000/products/cart/add`, {
+        let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/add`, {
             cartItem,
             token
         })
@@ -51,7 +51,7 @@ function BeddingSingle() {
                                     }} />
                                 <p>Extra 50% off on each discounted product when you buy 2 discounted products (or in multiples of 2), final discounted price will be displayed in the cart. NO COUPON REQUIRED.</p>
                             </div>
-                            <button className='bg-black fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-warning' style={{ letterSpacing: '1px' }} onClick={cardAdd}>Add To Cart</button>
+                            <button className=' fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-warning' style={{ letterSpacing: '1px', background: 'linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%)' }} onClick={cardAdd}>Add To Cart</button>
                         </div>
                     </div>
 

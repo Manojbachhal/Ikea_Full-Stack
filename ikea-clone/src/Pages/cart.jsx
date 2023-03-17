@@ -4,16 +4,20 @@ import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
 import { AiOutlinePlus } from "@react-icons/all-files/ai/AiOutlinePlus"
 import { BiMinus } from "@react-icons/all-files/bi/BiMinus"
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { cartAction } from '../Redux/Action/cartAction'
 const Cart = () => {
   const dispatch = useDispatch();
-  const [cartdata, setCartdata] = useState([]);
+  const [cartdata, setCartdata] = useState(useSelector((el) => {
+    return el.cartReducer.cartData
+
+  }) || []);
   // let cartdata = [];
+
   const getData = (async () => {
     let token = JSON.parse(localStorage.getItem('Token'))
 
-    let data = await axios.post(`http://localhost:4000/products/cart/view`, {
+    let data = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/view`, {
       token
     })
     // if (data.data.length > 0) {
@@ -28,7 +32,7 @@ const Cart = () => {
   const updateData = async (cartItem) => {
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
-    let res = await axios.post(`http://localhost:4000/products/cart/add`, {
+    let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/add`, {
       cartItem,
       token
     })
@@ -41,7 +45,7 @@ const Cart = () => {
   const updateDeleteData = async (cartItem) => {
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
-    let res = await axios.post(`http://localhost:4000/products/cart/remove`, {
+    let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/remove`, {
       cartItem,
       token
     }, [cartdata])
@@ -54,7 +58,7 @@ const Cart = () => {
   const cartDelete = async (cartItem) => {
     delete cartItem.email;
     let token = JSON.parse(localStorage.getItem('Token'))
-    let res = await axios.post(`http://localhost:4000/products/cart/remove-product`, {
+    let res = await axios.post(`https://courageous-elk-boot.cyclic.app/products/cart/remove-product`, {
       cartItem,
       token
     })

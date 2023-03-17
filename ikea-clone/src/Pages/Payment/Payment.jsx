@@ -28,7 +28,7 @@ function Payment(props) {
     async function AddData() {
         console.log('test')
         let token = JSON.parse(localStorage.getItem('Token'))
-        let res = await axios.post('http://localhost:4000/products/cart/empty-cart', {
+        let res = await axios.post('https://courageous-elk-boot.cyclic.app/products/cart/empty-cart', {
             token
         })
         var check = true;

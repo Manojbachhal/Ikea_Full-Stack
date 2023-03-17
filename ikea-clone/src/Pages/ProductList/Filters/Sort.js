@@ -64,7 +64,7 @@ function Sort({ page }) {
           dispatch(LoadingActionON(dispatch));
 
           let data = await axios.get(
-            `http://localhost:4000/products/sofa?page=${page}&sort=asc`
+            `https://courageous-elk-boot.cyclic.app/products/sofa?page=${page}&sort=asc`
           );
           if (data.data.data.data.length > 0) {
             dispatch(
@@ -80,7 +80,7 @@ function Sort({ page }) {
         dispatch(LoadingActionON(dispatch));
         (async function () {
           let data = await axios.get(
-            `http://localhost:4000/products/sofa?page=${page}&sort=dsc`
+            `https://courageous-elk-boot.cyclic.app/products/sofa?page=${page}&sort=dsc`
           );
 
           if (data.data.data.data.length > 0) {
