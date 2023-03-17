@@ -27,7 +27,7 @@ function Signup() {
     }
     const handleSubmit = async () => {
         try {
-            let data = await axios.post('http://localhost:4000/user/register', {
+            let data = await axios.post('https://courageous-elk-boot.cyclic.app/user/register', {
                 name: inputData.firstname,
                 lastname: inputData.surname,
                 email: inputData.email,
