@@ -28,18 +28,7 @@ function Sofa() {
         return data.data.data.data;
     })
 
-    useEffect(() => {
-        (async function () {
-            dispatch(LoadingActionON(dispatch));
 
-            let data = await getData(page, url);
-
-            dispatch(thunkActionProductsSofa(dispatch, getState, data))
-            dispatch(LoadingActionOFF(dispatch));
-
-        })();
-
-    }, [page])
 
 
     const handle = (val) => {
@@ -63,6 +52,23 @@ function Sofa() {
         return dta.productReducer.isLoading;
     });
     getCartData();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+        (async function () {
+            dispatch(LoadingActionON(dispatch));
+
+            let data = await getData(page, url);
+
+            dispatch(thunkActionProductsSofa(dispatch, getState, data))
+            dispatch(LoadingActionOFF(dispatch));
+
+        })();
+
+
+    }, [page])
+
 
     // console.log(dta, 'dta')
     return (loading ? <Loading /> : < div id="product-list" style={{ width: "90%", margin: "auto" }} >

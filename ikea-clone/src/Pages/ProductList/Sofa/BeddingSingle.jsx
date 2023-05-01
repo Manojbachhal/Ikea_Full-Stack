@@ -81,7 +81,7 @@ function BeddingSingle() {
                                     }} />
                                 <p>Extra 50% off on each discounted product when you buy 2 discounted products (or in multiples of 2), final discounted price will be displayed in the cart. NO COUPON REQUIRED.</p>
                             </div>
-                            <button className=' fw-bold border-2 border-warning rounded-pill p-2 px-4 mb-2 text-dark' style={{ letterSpacing: '1px', background: 'linear-gradient(0deg, rgb(217 210 229) 0%, rgb(23 22 24) 100%)' }} onClick={cardAdd}>Add To Cart</button>
+                            <button className=' fw-bold border-2  rounded-pill p-2 px-4 mb-2 text-light' style={{ letterSpacing: '1px', background: '#0058AB', border: '2px solid black' }} onClick={cardAdd}>Add To Cart</button>
                         </div>
                     </div>
 
