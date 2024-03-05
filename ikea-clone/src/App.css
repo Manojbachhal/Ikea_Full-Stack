@@ -1,5 +1,3 @@
-
-
 .App {
   text-align: left;
 }
@@ -38,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+.submenu3 {
+  display: none !important;
+}
+.submenu3v {
+  display: grid !important;
+}
+.submenu2 {
+  display: none !important;
+}
+.submenu2v {
+  display: grid !important;
+}
+.submenu1 {
+  display: none !important;
+}
+.submenu1v {
+  display: grid !important;
+}
+
+/*  */
