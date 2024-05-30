@@ -15,7 +15,7 @@ function Login() {
       let Token = JSON.parse(localStorage.getItem("Token"));
 
       let Logindata = await axios.get(
-        "https://courageous-elk-boot.cyclic.app/user/loggedin",
+        "https://ikea-backend.onrender.com/user/loggedin",
         (Headers = {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Token}`,
@@ -60,7 +60,8 @@ function Login() {
     e.preventDefault();
     try {
       let Logindata = await axios.post(
-        "https://courageous-elk-boot.cyclic.app/user/login",
+        "https://ikea-backend.onrender.com/user/login",
+        // "https://courageous-elk-boot.cyclic.app/user/login",
 
         {
           email: inputData.email,

@@ -31,7 +31,7 @@ function Signup() {
   const handleSubmit = async () => {
     try {
       let data = await axios.post(
-        "https://courageous-elk-boot.cyclic.app/user/register",
+        "https://ikea-backend.onrender.com/user/register",
         {
           name: inputData.firstname,
           lastname: inputData.surname,
