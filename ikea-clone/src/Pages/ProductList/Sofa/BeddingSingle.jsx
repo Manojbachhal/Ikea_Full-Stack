@@ -43,7 +43,7 @@ function BeddingSingle() {
     // dispatch(LoadingActionON(dispatch));
     let token = JSON.parse(localStorage.getItem("Token"));
     let res = await axios.post(
-      `https://courageous-elk-boot.cyclic.app/products/cart/add`,
+      `https://ikea-backend.onrender.com/products/cart/add`,
       {
         cartItem,
         token,

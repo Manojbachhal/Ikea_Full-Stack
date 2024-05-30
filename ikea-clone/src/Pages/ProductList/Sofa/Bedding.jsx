@@ -16,7 +16,7 @@ function Bedding() {
   const [Data, setData] = useState([]);
   const getData = async (page) => {
     let data = await axios.get(
-      `https://courageous-elk-boot.cyclic.app/products/bedding?page=${page}`
+      `https://ikea-backend.onrender.com/products/bedding?page=${page}`
     );
     console.log(data.data.data);
     settotal(data.data.data.totalPage);

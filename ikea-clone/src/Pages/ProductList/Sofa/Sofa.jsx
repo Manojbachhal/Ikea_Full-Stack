@@ -20,7 +20,7 @@ function Sofa() {
   const [page, setpage] = useState(1);
   // const [dta, setdta] = useState(
   const [totalpage, settotal] = useState(0);
-  const url = ` https://courageous-elk-boot.cyclic.app/products/sofa?page=${page}`;
+  const url = ` https://ikea-backend.onrender.com/products/sofa?page=${page}`;
   const getData = async (page, url) => {
     let data = await axios.get(url);
 
@@ -41,7 +41,7 @@ function Sofa() {
     let token = JSON.parse(localStorage.getItem("Token"));
 
     let d = await axios.post(
-      `https://courageous-elk-boot.cyclic.app/products/cart/view`,
+      `https://ikea-backend.onrender.com/products/cart/view`,
       {
         token,
       }
@@ -75,7 +75,7 @@ function Sofa() {
     <div id="product-list" style={{ width: "90%", margin: "auto" }}>
       <Filters
         getData={getData}
-        url={`https://courageous-elk-boot.cyclic.app/products/sofa?page=${page}`}
+        url={`https://ikea-backend.onrender.com/products/sofa?page=${page}`}
         page={page}
       />
 
