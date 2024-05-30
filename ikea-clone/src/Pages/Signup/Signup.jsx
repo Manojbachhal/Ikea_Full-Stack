@@ -142,7 +142,7 @@ function Signup() {
             id="signup_input"
           >
             <input
-              type="email"
+              type="text"
               className="form-control"
               id="floatingInput"
               placeholder="name@example.com"
@@ -188,56 +188,6 @@ function Signup() {
             <label for="floatingInput">Surname</label>
           </div>
 
-          <div
-            className="form-floating mb-3"
-            style={{ width: "450px" }}
-            id="signup_input"
-          >
-            <input
-              type="mobile"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              style={{
-                border: "none",
-                borderBottom: "1px  solid",
-                borderRadius: "0px",
-                marginBottom: "30px",
-              }}
-              onClick={() => {
-                document.getElementById("floatingInput").preventFocus = true;
-              }}
-              name="mobile"
-              onChange={handle}
-            />
-            <label for="floatingInput">Mobile</label>
-          </div>
-
-          <div
-            className="form-floating mb-3"
-            style={{ width: "450px" }}
-            id="signup_input"
-          >
-            <input
-              type="number"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              style={{
-                border: "none",
-                borderBottom: "1px  solid",
-                borderRadius: "0px",
-                marginBottom: "30px",
-              }}
-              onClick={() => {
-                document.getElementById("floatingInput").preventFocus = true;
-              }}
-              name="birthdata"
-              onChange={handle}
-            />
-            <label for="floatingInput">Birthdate</label>
-          </div>
-
           <div class="col-md-6 mb-4">
             <select
               class="select"
@@ -248,32 +198,10 @@ function Signup() {
               <option value="1" disabled>
                 Gender
               </option>
-              <option value="Female">Female</option>
               <option value="Male">Male</option>
+              <option value="Female">Female</option>
               <option value="Other">Other</option>
             </select>
-          </div>
-
-          <div
-            className="form-floating mb-3 mt-1"
-            style={{ width: "450px" }}
-            id="signup_input"
-          >
-            <input
-              type="mobile"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              style={{
-                border: "none",
-                borderBottom: "1px  solid",
-                borderRadius: "0px",
-                marginBottom: "30px",
-              }}
-              name="postcode"
-              onChange={handle}
-            />
-            <label for="floatingInput">Post Code</label>
           </div>
 
           <div
